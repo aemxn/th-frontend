@@ -5,23 +5,23 @@
         <b-link class="card-link" href="#">Explore</b-link>
         <b-link class="card-link" href="#">Search</b-link>
         <b-link class="card-link" href="#">Export</b-link>
-        <CreateTodo></CreateTodo>
+        <CreateEntry></CreateEntry>
         <small><i>{{ footer }}</i></small>
       </b-col>
       <b-col cols="8">
-        <ListTodo></ListTodo>
+        <ListEntry></ListEntry>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import CreateTodo from "./components/CreateTodo.vue";
-import ListTodo from "./components/ListTodo.vue";
+import CreateEntry from "./components/CreateEntry.vue";
+import ListEntry from "./components/ListEntry.vue";
 
 export default {
   name: "app",
-  components: { CreateTodo, ListTodo },
+  components: { CreateEntry, ListEntry },
   data() {
     return {
       footer: "aemxn (2020)"
