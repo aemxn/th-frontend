@@ -1,7 +1,7 @@
 <template>
   <div class="col align-self-center">
     <h3 class="pb-5 text-left underline">Create Entry</h3>
-    <form class="sign-in" @submit.prevent="addTodo">
+    <form class="sign-in" @submit.prevent="createEntry">
       <div class="form-group todo__row">
         <input
           type="text"
@@ -34,37 +34,37 @@ import bus from "./../bus.js";
 export default {
   data() {
     return {
-      name: "",
+      entry: {},
       typing: false
     };
   },
   methods: {
-    addTodo(event) {
+    createEntry(event) {
       if (event) event.preventDefault();
-      let todo = {
+      let entry = {
         title: this.title,
         date: this.date,
         body: this.body
       };
-      console.log(todo);
+      console.log(entry);
       this.$http
-        .post("/", todo)
+        .post("/", entry)
         .then(() => {
-          this.clearTodo();
-          this.refreshTodo();
-          this.typing = false;
+          this.clearFields();
+          this.refreshEntries();
         })
         .catch(error => {
           console.log(error);
         });
     },
 
-    clearTodo() {
+    clearFields() {
       this.name = "";
+      this.body = "";
     },
 
-    refreshTodo() {
-      bus.$emit("refreshTodo");
+    refreshEntries() {
+      bus.$emit("refreshEntries");
     }
   }
 };

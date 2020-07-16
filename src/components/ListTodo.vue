@@ -1,34 +1,44 @@
 <template>
-  <div v-bind:show="todos.length>0" class="col align-self-center">
-    <div class="form-row align-items-center" v-bind:key="todo.id" v-for="todo in todos">
+  <div v-bind:show="entries.length>0" class="col align-self-center">
+    <p>Showing 5 recent entries:</p>
+    <div class="form-row align-items-center" v-bind:key="entry.id" v-for="entry in entries">
       <div class="col-auto my-1">
-        <div class="input-group mb-3 todo__row">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <input
-                type="checkbox"
-                v-model="todo.done"
-                :checked="todo.done"
-                :value="todo.done"
-                v-on:change="updateTodo(todo)"
-                title="Mark as done?"
-              />
-            </span>
-          </div>
+        <div class="input-group mb-3">
           <input
             type="text"
             class="form-control"
-            :class="todo.done?'todo__done':''"
-            v-model="todo.name"
-            @keypress="todo.editing=true"
-            v-on:keyup.enter="updateTodo(todo)"
+            v-model="entry.title"
           />
+          <input
+            type="date"
+            class="form-control"
+            v-model="entry.date"
+          />
+          <textarea
+            type="text"
+            class="form-control"
+            rows="4"
+            cols="50"
+            v-model="entry.body"
+          />
+          
           <div class="input-group-append">
             <div class="input-group-text">
               <span
                 class="input-group-addon addon-left"
-                title="Delete todo?"
-                v-on:click="deleteTodo(todo._id)"
+                title="Delete entry?"
+                v-on:click="updateTodo(entry)"
+              >
+                O
+              </span>
+            </div>
+          </div>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span
+                class="input-group-addon addon-left"
+                title="Delete entry?"
+                v-on:click="deleteTodo(entry.id)"
               >
                 X
               </span>
@@ -37,26 +47,21 @@
         </div>
       </div>
     </div>
-    <div
-      class="alert alert-primary todo__row"
-      v-show="todos.length==0 && doneLoading"
-    >Hardest worker in the room. No more todos now you can rest. ;)</div>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
 import bus from "./../bus.js";
 
 export default {
   data() {
     return {
-      todos: [],
+      entries: [],
       doneLoading: false
     };
   },
   created: function() {
-    this.fetchTodo();
+    this.fetchEntries();
     this.listenToEvents();
   },
   watch: {
@@ -69,16 +74,18 @@ export default {
     }
   },
   methods: {
-    fetchTodo() {
-      this.$http.get("/").then(response => {
-        this.todos = response.data;
+    fetchEntries() {
+      this.$http.get("/latest").then(response => {
+        this.entries = response.data;
       });
     },
 
-    updateTodo(todo) {
-      let id = todo._id;
+    updateTodo(entry) {
+      let id = entry.id;
+      console.log(id);
+      console.log(entry);
       this.$http
-        .put(`/${id}`, todo)
+        .put(`/${id}`, entry)
         .then(response => {
           console.log(response);
         })
@@ -87,15 +94,16 @@ export default {
         });
     },
 
-    deleteTodo(id) {
-      this.$http.delete(`/${id}`).then(() => {
-        this.fetchTodo();
-      });
+    deleteTodo() {
+        console.log('DELETE is disabled');
+    //   this.$http.delete(`/${id}`).then(() => {
+    //     this.fetchEntries();
+    //   });
     },
 
     listenToEvents() {
-      bus.$on("refreshTodo", () => {
-        this.fetchTodo(); //update todo
+      bus.$on("refreshEntries", () => {
+        this.fetchEntries(); //update entry
       });
     }
   }
@@ -103,9 +111,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.todo__done {
-  text-decoration: line-through !important;
-}
 
 .no_border_left_right {
   border-left: 0px;
