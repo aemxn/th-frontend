@@ -1,52 +1,31 @@
 <template>
   <div v-bind:show="entries.length>0" class="col align-self-center">
-    <p>Showing 5 recent entries:</p>
-    <div class="form-row align-items-center" v-bind:key="entry.id" v-for="entry in entries">
-      <div class="col-auto my-1">
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            v-model="entry.title"
-          />
-          <input
-            type="date"
-            class="form-control"
-            v-model="entry.date"
-          />
-          <textarea
-            type="text"
-            class="form-control"
-            rows="4"
-            cols="50"
-            v-model="entry.body"
-          />
-          
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span
-                class="input-group-addon addon-left"
-                title="Delete entry?"
-                v-on:click="updateTodo(entry)"
-              >
-                O
-              </span>
-            </div>
-          </div>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span
-                class="input-group-addon addon-left"
-                title="Delete entry?"
-                v-on:click="deleteTodo(entry.id)"
-              >
-                X
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <b>Showing 5 recent entries:</b>
+    <b-card class="entry-card" v-bind:key="entry.id" v-for="entry in entries">
+
+      <b-form-input required
+        class="form-input" 
+        size="sm"
+        type="text"
+        v-model="entry.title"/>
+
+      <b-form-datepicker required
+        class="form-input"
+        size="sm"
+        v-model="entry.date"/>
+
+      <b-form-textarea required
+        class="form-input"
+        size="sm"
+        rows="4"
+        max-rows="8"
+        cols="50"
+        v-model="entry.body"/>
+      
+      <b-button class="btn" size="sm" variant="outline-primary" v-on:click="updateTodo(entry)">Update</b-button>
+
+      <b-button class="btn" size="sm" variant="danger" v-on:click="deleteTodo(entry.id)">Delete</b-button>
+    </b-card>
   </div>
 </template>
 
@@ -111,28 +90,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.no_border_left_right {
-  border-left: 0px;
-  border-right: 0px;
+.entry-card {
+  margin-bottom: 1em;
 }
-
-.flat_form {
-  border-radius: 0px;
+.form-input {
+  margin-bottom: 0.5em;
 }
-
-.mrb-10 {
-  margin-bottom: 10px;
-}
-
-.addon-left {
-  background-color: none !important;
-  border-left: 0px !important;
-  cursor: pointer !important;
-}
-
-.addon-right {
-  background-color: none !important;
-  border-right: 0px !important;
+.btn {
+  margin: 0 5px 0 0;
 }
 </style>

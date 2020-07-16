@@ -1,12 +1,16 @@
 <template>
-  <div class="container">
-    <div class="row vertical-centre justify-content-center mt-50">
-      <div class="col-md-6 mx-auto">
+  <b-container class="cont">
+    <b-row>
+      <b-col>
         <CreateTodo></CreateTodo>
+        <b-link class="card-link" href="#">Explore</b-link>
+        <b-link class="card-link" href="#">Search</b-link>
+      </b-col>
+      <b-col cols="8">
         <ListTodo></ListTodo>
-      </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -22,13 +26,9 @@ export default {
 <style lang="scss">
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/bootstrap-vue/src/index.scss";
-.vertical-centre {
-  min-height: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+
+.cont {
+  padding: 1em;
 }
-.todo__row {
-  width: 400px;
-}
+
 </style>

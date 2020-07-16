@@ -1,32 +1,44 @@
 <template>
-  <div class="col align-self-center">
-    <h3 class="pb-5 text-left underline">Create Entry</h3>
-    <form class="sign-in" @submit.prevent="createEntry">
-      <div class="form-group todo__row">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Title"
-          v-model="title"
-        />
-        <input
-          type="date"
-          class="form-control"
-          placeholder="Date"
-          v-model="date"
-        />
-        <textarea
-          type="text"
-          class="form-control"
-          placeholder="Body"
-          rows="4"
-          cols="50"
-          v-model.trim="body"
-        />
-      </div>
-      <button type="submit" class="button is-danger">Submit</button>
-    </form>
-  </div>
+  <b-card title="Create Entry">
+    <b-form @submit.prevent="createEntry">
+        <b-form-group
+          id="input-group-title"
+          label="Title:"
+          label-for="input-title">
+          <b-form-input
+            type="text"
+            id="input-title"
+            placeholder="Enter title"
+            required
+            v-model="title"/>
+        </b-form-group>
+        
+        <b-form-group
+          id="input-group-date"
+          label="Date:"
+          label-for="input-date">
+          <b-form-datepicker
+            id="input-date"
+            required
+            v-model="date"/>
+        </b-form-group>
+
+        <b-form-group
+          id="input-group-body"
+          label="Title:"
+          label-for="input-body">
+          <b-form-textarea
+            id="input-body"
+            placeholder="Write your journal..."
+            rows="4"
+            max-rows="8"
+            cols="50"
+            required
+            v-model.trim="body"/>
+        </b-form-group>
+      <b-button variant="primary" type="submit">Submit</b-button>
+    </b-form>
+  </b-card>
 </template>
 <script>
 import bus from "./../bus.js";
@@ -34,8 +46,7 @@ import bus from "./../bus.js";
 export default {
   data() {
     return {
-      entry: {},
-      typing: false
+      entry: {}
     };
   },
   methods: {
@@ -70,7 +81,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.underline {
-  text-decoration: underline;
-}
+
 </style>
