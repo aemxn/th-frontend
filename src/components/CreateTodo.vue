@@ -23,7 +23,7 @@
 
         <b-form-group
           id="input-group-body"
-          label="Title:"
+          label="Body:"
           label-for="input-body">
           <b-form-textarea required
             id="input-body"
