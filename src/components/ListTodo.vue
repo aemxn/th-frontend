@@ -1,6 +1,6 @@
 <template>
   <div v-bind:show="entries.length>0" class="col align-self-center">
-    <b>Showing 5 recent entries:</b>
+    <b>Showing {{ entries.length }} recent entries:</b>
     <b-card class="entry-card" v-bind:key="entry.id" v-for="entry in entries">
 
       <b-form-input required
@@ -23,8 +23,13 @@
         v-model="entry.body"/>
       
       <b-button class="btn" size="sm" variant="outline-primary" v-on:click="updateTodo(entry)">Update</b-button>
+      <!-- <b-button class="btn" size="sm" variant="danger" v-on:click="deleteTodo(entry.id)">Delete</b-button> -->
 
-      <b-button class="btn" size="sm" variant="danger" v-on:click="deleteTodo(entry.id)">Delete</b-button>
+      <i><small><span v-if="updateId === entry.id" v-show="updating">Updating...</span></small></i>
+      <i><small><span v-if="updateId === entry.id" v-show="updated">Updated successfully</span></small></i>
+      <i><small><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></small></i>
+
+      <!-- TODO delete indicator -->
     </b-card>
   </div>
 </template>
@@ -36,7 +41,11 @@ export default {
   data() {
     return {
       entries: [],
-      doneLoading: false
+      doneLoading: false,
+      updated: false,
+      updating: false,
+      noUpdate: false,
+      updateId: ""
     };
   },
   created: function() {
@@ -63,21 +72,28 @@ export default {
       let id = entry.id;
       console.log(id);
       console.log(entry);
+      this.updating = true;
+      this.updated = false;
       this.$http
         .put(`/${id}`, entry)
         .then(response => {
           console.log(response);
+          this.updating = false;
+          this.updated = true;
+          this.updateId = id;
         })
         .catch(error => {
+          this.updating = false;
+          this.updated = false;
+          this.noUpdate = true;
           console.log(error);
         });
     },
 
-    deleteTodo() {
-        console.log('DELETE is disabled');
-    //   this.$http.delete(`/${id}`).then(() => {
-    //     this.fetchEntries();
-    //   });
+    deleteTodo(id) {
+      this.$http.delete(`/${id}`).then(() => {
+        this.fetchEntries();
+      });
     },
 
     listenToEvents() {
@@ -95,8 +111,5 @@ export default {
 }
 .form-input {
   margin-bottom: 0.5em;
-}
-.btn {
-  margin: 0 5px 0 0;
 }
 </style>
