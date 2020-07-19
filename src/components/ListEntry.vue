@@ -62,9 +62,9 @@ export default {
   },
   methods: {
     fetchEntries() {
-      this.$http.get("/latest").then(response => {
-        this.entries = response.data;
-      });
+      this.$http.get("/latest")
+      .then(response => this.entries = response.data )
+      .catch(error => console.log(error));
     },
 
     updateEntry(entry) {
