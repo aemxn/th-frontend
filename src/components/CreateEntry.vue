@@ -48,6 +48,9 @@ export default {
   data() {
     return {
       entry: {},
+      title: '',
+      date: '',
+      body: '',
       creating: false,
       created: false,
       noCreate: false
