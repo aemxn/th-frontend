@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, Menu, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -39,7 +39,65 @@ function createWindow() {
   win.on('closed', () => {
     win = null
   })
+
+  Menu.setApplicationMenu(createMenu());
 }
+
+/**
+ * ********************************************************
+ */
+
+function createMenu() {
+  let os = require('os')
+  let about_details = 
+    'Version: ' + process.env.npm_package_version + '\n' +
+    'User Info: ' + JSON.stringify(os.userInfo()) + '\n' +
+    'Platform: ' + os.platform() + '\n' +
+    'User home directory: ' +  os.homedir() + '\n' +
+    'OS Architecture: ' + os.arch()
+
+  return Menu.buildFromTemplate([
+    {
+      label: 'Menu',
+      submenu: [
+        {
+          label: 'Export Journal',
+          click() {
+            // export API
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'Exit',
+          click() {
+            app.quit()
+          }
+        }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'About',
+          click() {
+            dialog.showMessageBox({
+              type: 'info',
+              message: 'TH-FrontEnd',
+              title: 'TH-FrontEnd (alpha)',
+              detail: about_details,
+              
+            })
+          }
+        }
+      ]
+    }
+  ])
+}
+
+/**
+ * ********************************************************
+ */
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

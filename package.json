@@ -1,8 +1,8 @@
 {
   "name": "th-frontend",
-  "version": "0.1",
+  "version": "0.1.0",
   "private": true,
-  "description": "",
+  "description": "Journal writing",
   "author": {
     "name": "Aiman B."
   },
