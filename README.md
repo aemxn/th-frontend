@@ -1,6 +1,13 @@
-# TH Frontend
+# Juno
+### UI
 
 p/s: I suck at front-end, so I just copy and pasted the boilerplate from [this guy][1].
+
+### Prerequisite
+
+This project needs the backend server located in [Juno (Server)][2].
+
+Start the server first before building this project.
 
 Project setup:
 ```
@@ -43,3 +50,4 @@ $ npm run electron:build
 
 [1]: https://dev.to/abiodunjames/build-a-todo-app-with-nodejs-expressjs-mongodb-and-vuejs--part-2--3k11
 [loading-indicator]: https://codepen.io/sethdavis512/pen/vJxNdq
+[2]: https://github.com/aemxn/juno-server
