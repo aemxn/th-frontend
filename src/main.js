@@ -1,14 +1,9 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import axios from 'axios';
 import App from './App.vue';
-require('dotenv').config();
+import Axios from './http';
 
-const http = axios.create({
-  baseURL: process.env.BACKEND_URL ? process.env.BACKEND_URL : 'http://localhost:3000/entries',
-});
-
-Vue.prototype.$http = http;
+Vue.prototype.$http = Axios;
 
 Vue.use(BootstrapVue);
 

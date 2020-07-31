@@ -3,6 +3,7 @@
 import { app, protocol, BrowserWindow, Menu, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { Axios } from './http'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -19,6 +20,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
+    title: 'Juno',
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -63,7 +65,17 @@ function createMenu() {
         {
           label: 'Export Journal',
           click() {
-            // export API
+            // FIXME: https://stackoverflow.com/questions/42540071/manipulate-the-dom-in-electron-with-a-menu-item
+            // Axios.get("/export").then(response => {
+            //   console.log(response)
+            // });
+            dialog.showMessageBox({
+              type: 'info',
+              message: 'Juno',
+              title: 'Juno (alpha)',
+              detail: 'Not yet implemented',
+              
+            })
           }
         },
         { type: 'separator' },
@@ -83,8 +95,8 @@ function createMenu() {
           click() {
             dialog.showMessageBox({
               type: 'info',
-              message: 'TH-FrontEnd',
-              title: 'TH-FrontEnd (alpha)',
+              message: 'About Juno',
+              title: 'Juno (alpha)',
               detail: about_details,
               
             })
