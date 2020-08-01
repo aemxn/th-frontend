@@ -6,7 +6,6 @@
         <b-link class="card-link" href="#">Search</b-link>
         <b-link class="card-link" href="#">Export</b-link>
         <CreateEntry></CreateEntry>
-        <small><i>{{ footer }}</i></small>
       </b-col>
       <b-col cols="8">
         <ListEntry></ListEntry>
@@ -21,12 +20,7 @@ import ListEntry from "./components/ListEntry.vue";
 
 export default {
   name: "app",
-  components: { CreateEntry, ListEntry },
-  data() {
-    return {
-      footer: "aemxn (2020)"
-    }
-  }
+  components: { CreateEntry, ListEntry }
 };
 </script>
 
