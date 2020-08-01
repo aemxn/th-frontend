@@ -1,9 +1,10 @@
+/* global __static */
 'use strict'
-
 import { app, protocol, BrowserWindow, Menu, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { Axios } from './http'
+const path = require('path')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -21,6 +22,7 @@ function createWindow() {
     width: 1200,
     height: 800,
     title: 'Juno',
+    icon: path.join(__static, 'icon.png'),
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
