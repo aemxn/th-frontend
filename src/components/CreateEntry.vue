@@ -84,8 +84,9 @@ export default {
     },
 
     clearFields() {
-      this.name = "";
+      this.title = "";
       this.body = "";
+      this.date = "";
     },
 
     refreshEntries() {
