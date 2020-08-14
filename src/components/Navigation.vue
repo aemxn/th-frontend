@@ -1,24 +1,29 @@
 <template>
-  <header>
-    <nav>
-      <ul>
-        <li>
-          <router-link to="/explore">Explore</router-link>
-        </li>
-        <li>
-          <router-link to="/create">Create</router-link>
-        </li>
-        <li>
-          <b-link class="card-link" v-on:click="exportAll">Export</b-link>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-nav>
+        <b-nav-item to="/explore">Explore</b-nav-item>
+        <b-nav-item to="/create">Create</b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown text="Tools" right>
+          <b-dropdown-item v-b-modal.modalExport v-on:click="exportAll">Export All</b-dropdown-item>
+        </b-nav-item-dropdown>
+
+        <b-modal id="modalExport" title="Export Status" ok-only>
+          <p class="my-4">{{ modalExport_msg }}</p>
+        </b-modal>
+      </b-navbar-nav>
+  </b-navbar>
 </template>
 
 <script>
 export default {
   name: "navigation",
+  data () {
+      return {
+        modalExport_msg: ""
+      }
+  },
   methods: {
     exportAll() {
       this.$http
@@ -27,41 +32,13 @@ export default {
           var message = response.data.message;
           var filename = response.data.filename;
           var str = message + '\n' + 'Filename: ' + filename;
-          alert(str);
+          this.modalExport_msg = str;
         })
-        .catch(error => alert(error));
+        .catch(error => this.modalExport_msg = error);
     }
   }
 };
 </script>
 
 <style scoped>
-header {
-  background: #234;
-}
-
-header a {
-  color: #fff;
-}
-
-a.router-link-active {
-  color: #4b8;
-}
-
-nav {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  align-content: space-between;
-  padding: 20px;
-}
-
-ul li {
-  display: inline-block;
-}
-
-li a {
-  padding: 0px 10px;
-  margin-left: 10px;
-}
 </style>
