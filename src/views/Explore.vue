@@ -1,33 +1,47 @@
 <template>
-  <div class="overflow-auto">
-    <div>
-        <b-pagination
-            v-model="page"
-            :total-rows="count"
-            :per-page="pageSize"
-            prev-text="<"
-            next-text=">"
-            @change="handlePageChange"
-        ></b-pagination>
+<div>
+    <b-pagination
+        v-model="page"
+        :total-rows="count"
+        :per-page="pageSize"
+        prev-text="<"
+        next-text=">"
+        @change="handlePageChange"
+    ></b-pagination>
 
-        <div v-for="(tutorial, id) in entries" :key="id">
-            <b-card :title="tutorial.title" :sub-title="tutorial.date">
-                <b-card-text>
-                    {{ truncate(tutorial.body) }}
-                </b-card-text>
-            </b-card>
-        </div>
-
-        <b-pagination
-            v-model="page"
-            :total-rows="count"
-            :per-page="pageSize"
-            prev-text="<"
-            next-text=">"
-            @change="handlePageChange"
-        ></b-pagination>
+    <div v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
+        <b-card :title="entry.title"
+        :sub-title="entry.date"
+        @click="modalTitle = entry.title, modalBody = entry.body, modalDate = entry.date">
+            <b-card-text>
+                {{ truncate(entry.body) }}
+            </b-card-text>
+        </b-card>
     </div>
-  </div>
+
+    <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
+
+        <p>{{ sanitize(modalBody) }}</p>
+
+        <template v-slot:modal-footer="{ cancel }">
+            <div class="w-100">
+                <i><p class="float-left">Date: {{ modalDate }}</p></i>
+            </div>
+            <b-button class="float-right" @click="cancel()">
+                Close
+            </b-button>
+        </template>
+    </b-modal>
+
+    <b-pagination
+        v-model="page"
+        :total-rows="count"
+        :per-page="pageSize"
+        prev-text="<"
+        next-text=">"
+        @change="handlePageChange"
+    ></b-pagination>
+</div>
 </template>
 
 <script>
@@ -43,6 +57,10 @@ export default {
             page: 1,
             count: 0,
             pageSize: 5,
+
+            modalTitle: "",
+            modalDate: "",
+            modalBody: ""
         }
     },
 
@@ -100,5 +118,7 @@ export default {
 </script>
 
 <style scoped>
-
+.modal-date {
+    text-align: left;
+}
 </style>
