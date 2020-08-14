@@ -3,10 +3,11 @@
       <b-navbar-nav>
         <b-nav-item to="/explore">Explore</b-nav-item>
         <b-nav-item to="/create">Create</b-nav-item>
+        <b-nav-item to="/">Analytics</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown text="Tools" right>
-          <b-dropdown-item v-b-modal.modalExport v-on:click="exportAll">Export All</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modalExport v-on:click="exportAll">Export All (JSON)</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-modal id="modalExport" title="Export Status" ok-only>

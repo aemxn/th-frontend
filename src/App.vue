@@ -25,4 +25,11 @@ export default {
 .cont {
   padding: 1em;
 }
+header {
+  font-size: 3em;
+  padding-bottom: 0.5em;
+}
+.pagination {
+  padding-top: 0.5em;
+}
 </style>

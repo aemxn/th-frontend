@@ -1,4 +1,6 @@
 <template>
+<div>
+  <header class="font-weight-bold">Create New Entry</header>
   <b-row>
     <b-col>
       <CreateEntry></CreateEntry>
@@ -7,6 +9,7 @@
       <ListEntry></ListEntry>
     </b-col>
   </b-row>
+</div>
 </template>
 
 <script>

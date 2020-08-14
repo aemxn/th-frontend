@@ -1,5 +1,6 @@
 <template>
 <div>
+    <header class="font-weight-bold">Explore Entries</header>
     <b-card-group columns>
         <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
                 <b-card :title="entry.title"
@@ -26,15 +27,15 @@
         </template>
     </b-modal>
     
-    <div class="d-flex justify-content-start">
-    <b-pagination
-        v-model="page"
-        :total-rows="count"
-        :per-page="pageSize"
-        prev-text="<"
-        next-text=">"
-        @change="handlePageChange"
-    ></b-pagination>
+    <div class="d-flex justify-content-start pagination">
+        <b-pagination
+            v-model="page"
+            :total-rows="count"
+            :per-page="pageSize"
+            prev-text="<"
+            next-text=">"
+            @change="handlePageChange"
+        ></b-pagination>
     </div>
 </div>
 </template>
