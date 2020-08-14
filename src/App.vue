@@ -1,7 +1,10 @@
 <template>
-  <b-container class="cont">
+  <b-container>
     <Navigation />
-    <router-view />
+    
+    <div class="cont">
+      <router-view />
+    </div>
   </b-container>
 </template>
 

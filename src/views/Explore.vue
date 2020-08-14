@@ -1,23 +1,16 @@
 <template>
 <div>
-    <b-pagination
-        v-model="page"
-        :total-rows="count"
-        :per-page="pageSize"
-        prev-text="<"
-        next-text=">"
-        @change="handlePageChange"
-    ></b-pagination>
-
-    <div v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
-        <b-card :title="entry.title"
-        :sub-title="entry.date"
-        @click="modalTitle = entry.title, modalBody = entry.body, modalDate = entry.date">
-            <b-card-text>
-                {{ truncate(entry.body) }}
-            </b-card-text>
-        </b-card>
-    </div>
+    <b-card-group columns>
+        <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
+                <b-card :title="entry.title"
+                :sub-title="entry.date"
+                @click="modalTitle = entry.title, modalBody = entry.body, modalDate = entry.date">
+                    <b-card-text>
+                        {{ truncate(entry.body) }}
+                    </b-card-text>
+                </b-card>
+        </div>
+    </b-card-group>
 
     <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
 
@@ -32,7 +25,8 @@
             </b-button>
         </template>
     </b-modal>
-
+    
+    <div class="d-flex justify-content-start">
     <b-pagination
         v-model="page"
         :total-rows="count"
@@ -41,6 +35,7 @@
         next-text=">"
         @change="handlePageChange"
     ></b-pagination>
+    </div>
 </div>
 </template>
 
@@ -56,7 +51,7 @@ export default {
 
             page: 1,
             count: 0,
-            pageSize: 5,
+            pageSize: 6,
 
             modalTitle: "",
             modalDate: "",
