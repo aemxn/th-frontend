@@ -9,6 +9,10 @@ class EntryDataService {
     return Axios.get("/latest");
   }
 
+  getByDate(params) {
+    return Axios.get("/search-date", { params });
+  }
+
   create(entry) {
     return Axios.post("/", entry);
   }

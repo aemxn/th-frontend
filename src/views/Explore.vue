@@ -5,6 +5,9 @@
         <b-col>
             <div class="search-form">
                 <b-form inline>
+                    <label class="sr-only" for="datepicker-search">Search by date</label>
+                    <b-form-datepicker id="datepicker-search" v-model="searchDate" class="mb-2 mr-sm-2 mb-sm-0"></b-form-datepicker>
+
                     <label class="sr-only" for="inline-form-input-name">Name</label>
                     <b-input
                     id="inline-form-input-name"
@@ -87,6 +90,7 @@ export default {
             currentTutorial: null,
             currentIndex: -1,
             searchTitle: "",
+            searchDate: "",
 
             page: 1,
             count: 0,
@@ -100,6 +104,12 @@ export default {
 
     created: function() {
         this.fetchEntries();
+    },
+
+    watch: {
+        searchDate: function() {
+            this.fetchEntryByDate();
+        }
     },
 
     methods: {
@@ -117,6 +127,23 @@ export default {
 
             return params;
         },
+
+        fetchEntryByDate() {
+            let params = {};
+            params["date"] = this.searchDate;
+            params["page"] = 0;
+            params["size"] = this.pageSize;
+
+            EntryDataService.getByDate(params)
+            .then(response => {
+                const { entries, totalItems } = response.data;
+                this.entries = entries;
+                this.count = totalItems;
+                console.log(response.data);
+            })
+            .catch(error => console.log(error));
+        },
+
         fetchEntries() {
             const params = this.getRequestParams(
                 this.searchTitle,
