@@ -16,6 +16,8 @@
                     v-model="searchTitle"
                     ></b-input>
                     <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
+                    <small><a v-if="searchDate || searchTitle" @click="clearSearch" href="#"
+                    class="inline-form-component font-italic text-decoration-none">Clear search</a></small>
                 </b-form>
             </div>
             <p class="font-italic text-muted">Found {{ count }} entries</p>
@@ -153,6 +155,13 @@ export default {
         formatDate(input) {
             return this.$utils.formatDate(input);
         },
+
+        clearSearch() {
+            this.searchTitle = "";
+            this.searchDate = "";
+            this.fetchEntries();
+        },
+
         navigate() {
             // this.$router.push({ name: "Create" });
             // this.$router.go(-1);
@@ -167,5 +176,8 @@ export default {
 }
 .search-form {
     padding: 0 0 1em 0;
+}
+.inline-form-component {
+    padding-left: 0.5em;
 }
 </style>
