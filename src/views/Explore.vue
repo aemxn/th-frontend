@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h1 class="font-weight-bold page-title">Explore Entries</h1>
+    <HeadingTitle firstTitle="Explore" secondTitle="Entries" />
     <b-row>
         <b-col>
             <div class="search-form">
@@ -80,12 +80,11 @@
 <script>
 import EntryDataService from "../services/EntryDataService";
 import EmptyView from "../components/EmptyView.vue";
+import HeadingTitle from "../components/HeadingTitle.vue";
 
 export default {
     name: 'explore',
-    components: {
-        EmptyView
-    },
+    components: { EmptyView, HeadingTitle },
     data () {
         return {
             entries: [],

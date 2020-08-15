@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1 class="font-weight-bold page-title">Create New Entry</h1>
+  <HeadingTitle firstTitle="Create" secondTitle="New Entry" />
   <b-row>
     <b-col>
       <CreateEntry></CreateEntry>
@@ -15,10 +15,11 @@
 <script>
 import CreateEntry from "../components/CreateEntry";
 import ListEntry from "../components/ListEntry.vue";
+import HeadingTitle from "../components/HeadingTitle.vue";
 
 export default {
   name: "create",
-  components: { CreateEntry, ListEntry }
+  components: { CreateEntry, ListEntry, HeadingTitle }
 };
 </script>
 
