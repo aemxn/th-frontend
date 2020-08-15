@@ -1,11 +1,11 @@
 <template>
-  <b-container>
+  <div>
     <Navigation />
     
     <div class="cont">
       <router-view />
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -22,6 +22,20 @@ export default {
 <style lang="scss">
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/bootstrap-vue/src/index.scss";
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 18px;
+  background-color: #f2f4f7;
+  color: #262626;
+}
+
 .cont {
   padding: 1em;
 }
