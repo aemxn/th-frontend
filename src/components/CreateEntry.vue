@@ -35,9 +35,9 @@
         </b-form-group>
       <b-button class="btn" variant="primary" type="submit">Submit</b-button>
 
-      <i><small><span v-show="creating">Creating...</span></small></i>
-      <i><small><span v-show="created">Created successfully</span></small></i>
-      <i><small><span v-show="noCreate">Create Failed</span></small></i>
+      <p class="font-italic text-muted"><span v-show="creating">Creating...</span></p>
+      <p class="font-italic text-muted"><span v-show="created">Created successfully</span></p>
+      <p class="font-italic text-muted"><span v-show="noCreate">Create Failed</span></p>
     </b-form>
   </b-card>
 </template>

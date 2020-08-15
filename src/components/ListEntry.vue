@@ -25,9 +25,9 @@
         <b-button type="submit" class="btn" size="sm" variant="outline-primary">Update</b-button>
         <!-- <b-button type="reset" class="btn" size="sm" variant="danger">Delete</b-button> -->
 
-        <i><small><span v-if="updateId === entry.id" v-show="updating">Updating...</span></small></i>
-        <i><small><span v-if="updateId === entry.id" v-show="updated">Updated successfully</span></small></i>
-        <i><small><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></small></i>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating...</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">Updated successfully</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></p>
       </b-form>
     </b-card>
     </div>

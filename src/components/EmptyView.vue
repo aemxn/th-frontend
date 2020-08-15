@@ -1,5 +1,5 @@
 <template>
-    <p>No entry. Please create one.</p>
+    <p>It's empty here.</p>
 </template>
 
 <script>

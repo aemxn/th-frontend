@@ -15,9 +15,8 @@
                     <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
                 </b-form>
             </div>
+            <p class="font-italic text-muted">Found {{ count }} entries</p>
             <div v-if="entries.length > 0">
-
-
                 <b-card-group columns>
                     <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
                             <b-card
@@ -38,7 +37,7 @@
 
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
-                            <i><p class="float-left">Date: {{ modalDate }}</p></i>
+                            <p class="float-left font-italic text-muted">Date: {{ modalDate }}</p>
                         </div>
                         <b-button class="float-right" @click="cancel()">
                             Close
