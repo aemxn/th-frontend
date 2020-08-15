@@ -3,7 +3,9 @@
     <header class="font-weight-bold">Explore Entries</header>
     <b-card-group columns>
         <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
-                <b-card :title="entry.title"
+                <b-card
+                class="shadow-sm p-3 mb-5 bg-white rounded"
+                :title="entry.title"
                 :sub-title="entry.date"
                 @click="modalTitle = entry.title, modalBody = entry.body, modalDate = entry.date">
                     <b-card-text>
@@ -27,13 +29,15 @@
         </template>
     </b-modal>
     
-    <div class="d-flex justify-content-start pagination">
-        <b-pagination
+    <div class="mt-3 position-relative">
+        <b-pagination pills
             v-model="page"
+            align="fill"
+            class="pagination"
             :total-rows="count"
             :per-page="pageSize"
-            prev-text="<"
-            next-text=">"
+            prev-text="Prev"
+            next-text="Next"
             @change="handlePageChange"
         ></b-pagination>
     </div>

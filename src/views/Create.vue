@@ -36,12 +36,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import "node_modules/bootstrap/scss/bootstrap";
-@import "node_modules/bootstrap-vue/src/index.scss";
-.cont {
-  padding: 1em;
-}
-.btn {
-  margin: 0 5px 0 0;
-}
+// .cont {
+//   padding: 1em;
+// }
+// .btn {
+//   margin: 0 5px 0 0;
+// }
 </style>
