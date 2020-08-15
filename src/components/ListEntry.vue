@@ -1,11 +1,10 @@
 <template>
   <div v-bind:show="entries.length>0" class="col align-self-center">
     <b>Showing {{ entries.length }} recent entries:</b>
-    <b-card class="entry-card" v-bind:key="entry.id" v-for="entry in entries">
+    <b-card class="shadow-sm p-3 mb-5 bg-white rounded" v-bind:key="entry.id" v-for="entry in entries">
       <b-form @submit.prevent="updateEntry(entry)" @reset="deleteEntry(entry.id)">
         <b-form-input required
-          class="form-input" 
-          size="sm"
+          class="form-input"
           type="text"
           v-model="entry.title"/>
 
@@ -106,9 +105,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.entry-card {
-  margin-bottom: 1em;
-}
 .form-input {
   margin-bottom: 0.5em;
 }

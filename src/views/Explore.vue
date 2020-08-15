@@ -6,8 +6,8 @@
                 <b-card
                 class="shadow-sm p-3 mb-5 bg-white rounded"
                 :title="entry.title"
-                :sub-title="entry.date"
-                @click="modalTitle = entry.title, modalBody = entry.body, modalDate = entry.date">
+                :sub-title="formatDate(entry.date)"
+                @click="modalTitle = entry.title, modalBody = entry.body, modalDate = formatDate(entry.date)">
                     <b-card-text>
                         {{ truncate(entry.body) }}
                     </b-card-text>
@@ -109,6 +109,9 @@ export default {
             return input.replace(/\\n/g, '\n');
         },
 
+        formatDate(input) {
+            return this.$utils.formatDate(input);
+        },
         navigate() {
             // this.$router.push({ name: "Create" });
             // this.$router.go(-1);

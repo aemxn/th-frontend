@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Create Entry">
+  <b-card class="shadow-sm p-3 mb-5 bg-white rounded" title="Create Entry">
     <b-form @submit.prevent="createEntry">
         <b-form-group
           id="input-group-title"
