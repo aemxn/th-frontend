@@ -42,6 +42,7 @@
   </b-card>
 </template>
 <script>
+import EntryDataService from "../services/EntryDataService";
 import bus from "./../bus.js";
 
 export default {
@@ -67,8 +68,7 @@ export default {
       console.log(entry);
       this.creating = true;
       this.created = false;
-      this.$http
-        .post("/", entry)
+      EntryDataService.create(entry)
         .then(() => {
           this.creating = false;
           this.created = true;

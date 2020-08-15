@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import EntryDataService from "../services/EntryDataService";
 import EmptyView from "./EmptyView.vue";
 import bus from "./../bus.js";
 
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     fetchEntries() {
-      this.$http.get("/latest")
+      EntryDataService.getLatest()
       .then(response => this.entries = response.data )
       .catch(error => console.log(error));
     },
@@ -81,8 +82,7 @@ export default {
       console.log(entry);
       this.updating = true;
       this.updated = false;
-      this.$http
-        .put(`/${id}`, entry)
+      EntryDataService.update(id, entry)
         .then(response => {
           console.log(response);
           this.updating = false;
@@ -99,9 +99,10 @@ export default {
 
     deleteEntry(id) {
       console.log(id);
-      // this.$http.delete(`/${id}`).then(() => {
-      //   this.fetchEntries();
-      // });
+      EntryDataService.delete(id)
+      .then(() => {
+        this.fetchEntries();
+      });
     },
 
     listenToEvents() {

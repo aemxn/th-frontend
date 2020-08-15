@@ -23,10 +23,4 @@ export default {
 </script>
 
 <style lang="scss">
-// .cont {
-//   padding: 1em;
-// }
-// .btn {
-//   margin: 0 5px 0 0;
-// }
 </style>

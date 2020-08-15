@@ -4,7 +4,18 @@
     <b-row>
         <b-col>
             <div v-if="entries.length > 0">
-            
+                <div class="search-form">
+                    <b-form inline>
+                        <label class="sr-only" for="inline-form-input-name">Name</label>
+                        <b-input
+                        id="inline-form-input-name"
+                        class="mb-2 mr-sm-2 mb-sm-0"
+                        placeholder="Search by title or body"
+                        ></b-input>
+                        <b-button variant="primary" @click="page = 1; retrieveTutorials();">Search</b-button>
+                    </b-form>
+                </div>
+
                 <b-card-group columns>
                     <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
                             <b-card
@@ -61,6 +72,7 @@
 </template>
 
 <script>
+import EntryDataService from "../services/EntryDataService";
 import EmptyView from "../components/EmptyView.vue";
 
 export default {
@@ -93,7 +105,7 @@ export default {
         getRequestParams(searchTitle, page, pageSize) {
             let params = {};
 
-            if (searchTitle) params["title"] = searchTitle;
+            if (searchTitle) params["query"] = searchTitle;
             if (page) params["page"] = page - 1;
             if (pageSize) params["size"] = pageSize;
 
@@ -105,9 +117,8 @@ export default {
                 this.page,
                 this.pageSize
             );
-            console.log('params', params);
 
-            this.$http.get(`/list?page=${params['page']}&size=${params['size']}`)
+            EntryDataService.getAll(params)
             .then(response => {
                 const { entries, totalItems } = response.data;
                 this.entries = entries;
@@ -144,5 +155,8 @@ export default {
 <style scoped>
 .modal-date {
     text-align: left;
+}
+.search-form {
+    padding: 0 0 1em 0;
 }
 </style>

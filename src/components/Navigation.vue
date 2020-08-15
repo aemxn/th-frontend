@@ -8,6 +8,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown text="Tools" right>
           <b-dropdown-item v-b-modal.modalExport v-on:click="exportAll">Export All (JSON)</b-dropdown-item>
+          <b-dropdown-item target="_blank" href="http://github.com/aemxn/juno-ui/">Github</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-modal id="modalExport" title="Export Status" ok-only>
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import EntryDataService from "../services/EntryDataService";
+
 export default {
   name: "navigation",
   data () {
@@ -27,8 +30,7 @@ export default {
   },
   methods: {
     exportAll() {
-      this.$http
-        .get("/export")
+      EntryDataService.export()
         .then((response) => {
           var message = response.data.message;
           var filename = response.data.filename;
