@@ -3,18 +3,20 @@
     <h1 class="font-weight-bold page-title">Explore Entries</h1>
     <b-row>
         <b-col>
+            <div class="search-form">
+                <b-form inline>
+                    <label class="sr-only" for="inline-form-input-name">Name</label>
+                    <b-input
+                    id="inline-form-input-name"
+                    class="mb-2 mr-sm-2 mb-sm-0"
+                    placeholder="Search by title or body"
+                    v-model="searchTitle"
+                    ></b-input>
+                    <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
+                </b-form>
+            </div>
             <div v-if="entries.length > 0">
-                <div class="search-form">
-                    <b-form inline>
-                        <label class="sr-only" for="inline-form-input-name">Name</label>
-                        <b-input
-                        id="inline-form-input-name"
-                        class="mb-2 mr-sm-2 mb-sm-0"
-                        placeholder="Search by title or body"
-                        ></b-input>
-                        <b-button variant="primary" @click="page = 1; retrieveTutorials();">Search</b-button>
-                    </b-form>
-                </div>
+
 
                 <b-card-group columns>
                     <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
@@ -105,7 +107,12 @@ export default {
         getRequestParams(searchTitle, page, pageSize) {
             let params = {};
 
-            if (searchTitle) params["query"] = searchTitle;
+            if (searchTitle) {
+                params["query"] = searchTitle;
+            } else {
+                params["query"] = "";
+            }
+
             if (page) params["page"] = page - 1;
             if (pageSize) params["size"] = pageSize;
 

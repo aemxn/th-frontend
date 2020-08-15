@@ -2,7 +2,7 @@ import Axios from '../http';
 
 class EntryDataService {
   getAll(params) {
-    return Axios.get("/list", { params });
+    return Axios.get("/search", { params });
   }
 
   getLatest() {
