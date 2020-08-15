@@ -1,6 +1,6 @@
 <template>
 <div>
-  <header class="font-weight-bold">Create New Entry</header>
+  <h1 class="font-weight-bold page-title">Create New Entry</h1>
   <b-row>
     <b-col>
       <CreateEntry></CreateEntry>

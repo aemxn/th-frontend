@@ -1,6 +1,6 @@
 <template>
 <div>
-    <header class="font-weight-bold">Explore Entries</header>
+    <h1 class="font-weight-bold page-title">Explore Entries</h1>
     <b-card-group columns>
         <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
                 <b-card

@@ -39,7 +39,7 @@ body {
 .cont {
   padding: 1em;
 }
-header {
+.page-title {
   font-size: 3em;
   padding-bottom: 0.5em;
 }
