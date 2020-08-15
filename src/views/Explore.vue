@@ -106,21 +106,12 @@ export default {
         this.fetchEntries();
     },
 
-    watch: {
-        searchDate: function() {
-            this.fetchEntryByDate();
-        }
-    },
-
     methods: {
-        getRequestParams(searchTitle, page, pageSize) {
+        getRequestParams(searchTitle, searchDate, page, pageSize) {
             let params = {};
 
-            if (searchTitle) {
-                params["query"] = searchTitle;
-            } else {
-                params["query"] = "";
-            }
+            params["query"] = searchTitle ? searchTitle : "";
+            params["date"] = searchDate ? searchDate : "";
 
             if (page) params["page"] = page - 1;
             if (pageSize) params["size"] = pageSize;
@@ -128,30 +119,15 @@ export default {
             return params;
         },
 
-        fetchEntryByDate() {
-            let params = {};
-            params["date"] = this.searchDate;
-            params["page"] = 0;
-            params["size"] = this.pageSize;
-
-            EntryDataService.getByDate(params)
-            .then(response => {
-                const { entries, totalItems } = response.data;
-                this.entries = entries;
-                this.count = totalItems;
-                console.log(response.data);
-            })
-            .catch(error => console.log(error));
-        },
-
         fetchEntries() {
             const params = this.getRequestParams(
                 this.searchTitle,
+                this.searchDate,
                 this.page,
                 this.pageSize
             );
 
-            EntryDataService.getAll(params)
+            EntryDataService.explore(params)
             .then(response => {
                 const { entries, totalItems } = response.data;
                 this.entries = entries;

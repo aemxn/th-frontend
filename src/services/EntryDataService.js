@@ -1,16 +1,12 @@
 import Axios from '../http';
 
 class EntryDataService {
-  getAll(params) {
-    return Axios.get("/search", { params });
-  }
-
   getLatest() {
     return Axios.get("/latest");
   }
 
-  getByDate(params) {
-    return Axios.get("/search-date", { params });
+  explore(params) {
+    return Axios.get("/explore", { params });
   }
 
   create(entry) {
