@@ -3,45 +3,53 @@
     <h1 class="font-weight-bold page-title">Explore Entries</h1>
     <b-row>
         <b-col>
-            <b-card-group columns>
-                <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
-                        <b-card
-                        class="shadow-sm p-3 mb-5 bg-white rounded"
-                        :title="entry.title"
-                        :sub-title="formatDate(entry.date)"
-                        @click="modalTitle = entry.title, modalBody = entry.body, modalDate = formatDate(entry.date)">
-                            <b-card-text>
-                                {{ truncate(entry.body) }}
-                            </b-card-text>
-                        </b-card>
-                </div>
-            </b-card-group>
-
-            <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
-
-                <p>{{ sanitize(modalBody) }}</p>
-
-                <template v-slot:modal-footer="{ cancel }">
-                    <div class="w-100">
-                        <i><p class="float-left">Date: {{ modalDate }}</p></i>
-                    </div>
-                    <b-button class="float-right" @click="cancel()">
-                        Close
-                    </b-button>
-                </template>
-            </b-modal>
+            <div v-if="entries.length > 0">
             
-            <div class="mt-3 position-relative">
-                <b-pagination pills
-                    v-model="page"
-                    align="fill"
-                    class="pagination"
-                    :total-rows="count"
-                    :per-page="pageSize"
-                    prev-text="Prev"
-                    next-text="Next"
-                    @change="handlePageChange"
-                ></b-pagination>
+                <b-card-group columns>
+                    <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
+                            <b-card
+                            class="shadow-sm p-3 mb-5 bg-white rounded"
+                            :title="entry.title"
+                            :sub-title="formatDate(entry.date)"
+                            @click="modalTitle = entry.title, modalBody = entry.body, modalDate = formatDate(entry.date)">
+                                <b-card-text>
+                                    {{ truncate(entry.body) }}
+                                </b-card-text>
+                            </b-card>
+                    </div>
+                </b-card-group>
+
+                <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
+
+                    <p>{{ sanitize(modalBody) }}</p>
+
+                    <template v-slot:modal-footer="{ cancel }">
+                        <div class="w-100">
+                            <i><p class="float-left">Date: {{ modalDate }}</p></i>
+                        </div>
+                        <b-button class="float-right" @click="cancel()">
+                            Close
+                        </b-button>
+                    </template>
+                </b-modal>
+                
+                <div class="mt-3 position-relative">
+                    <b-pagination pills
+                        v-model="page"
+                        align="fill"
+                        class="pagination"
+                        :total-rows="count"
+                        :per-page="pageSize"
+                        prev-text="Prev"
+                        next-text="Next"
+                        @change="handlePageChange"
+                    ></b-pagination>
+                </div>
+
+            </div>
+
+            <div v-else>
+                <EmptyView/>
             </div>
         </b-col>
 
@@ -53,8 +61,13 @@
 </template>
 
 <script>
+import EmptyView from "../components/EmptyView.vue";
+
 export default {
     name: 'explore',
+    components: {
+        EmptyView
+    },
     data () {
         return {
             entries: [],

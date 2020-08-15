@@ -1,5 +1,6 @@
 <template>
-  <div v-bind:show="entries.length>0" class="col align-self-center">
+  <div class="col align-self-center">
+    <div v-if="entries.length > 0">
     <b>Showing {{ entries.length }} recent entries:</b>
     <b-card class="shadow-sm p-3 mb-5 bg-white rounded" v-bind:key="entry.id" v-for="entry in entries">
       <b-form @submit.prevent="updateEntry(entry)" @reset="deleteEntry(entry.id)">
@@ -29,13 +30,21 @@
         <i><small><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></small></i>
       </b-form>
     </b-card>
+    </div>
+    <div v-else>
+        <EmptyView/>
+    </div>
   </div>
 </template>
 
 <script>
+import EmptyView from "./EmptyView.vue";
 import bus from "./../bus.js";
 
 export default {
+  components: {
+    EmptyView
+  },
   data() {
     return {
       entries: [],
