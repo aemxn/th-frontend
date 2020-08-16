@@ -9,6 +9,10 @@ class EntryDataService {
     return Axios.get("/explore", { params });
   }
 
+  getEntryById(id) {
+    return Axios.get(`/${id}`);
+  }
+
   create(entry) {
     return Axios.post("/", entry);
   }

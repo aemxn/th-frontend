@@ -28,7 +28,7 @@
                             class="shadow-sm p-3 mb-5 bg-white rounded"
                             :title="entry.title"
                             :sub-title="formatDate(entry.date)"
-                            @click="modalTitle = entry.title, modalBody = entry.body, modalDate = formatDate(entry.date)">
+                            @click="fetchEntryById(entry.id)">
                                 <b-card-text>
                                     {{ truncate(entry.body) }}
                                 </b-card-text>
@@ -88,6 +88,7 @@ export default {
     data () {
         return {
             entries: [],
+            singleEntry: {},
             currentTutorial: null,
             currentIndex: -1,
             searchTitle: "",
@@ -133,6 +134,17 @@ export default {
                 const { entries, totalItems } = response.data;
                 this.entries = entries;
                 this.count = totalItems;
+            })
+            .catch(error => console.log(error));
+        },
+
+        fetchEntryById(id) {
+            EntryDataService.getEntryById(id)
+            .then(response => {
+                this.singleEntry = response.data;
+                this.modalTitle = response.data.title;
+                this.modalBody = response.data.body;
+                this.modalDate = response.data.date;
             })
             .catch(error => console.log(error));
         },

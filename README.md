@@ -76,6 +76,11 @@ navigate() {
 
 RTFM: https://router.vuejs.org/
 
+---
+
+- Bootstrap Vue: https://bootstrap-vue.org/docs/components/
+- Bootstrap: https://getbootstrap.com/docs/4.5/utilities/
+- Axios: https://github.com/axios/axios
 
 
 [1]: https://dev.to/abiodunjames/build-a-todo-app-with-nodejs-expressjs-mongodb-and-vuejs--part-2--3k11
