@@ -10,6 +10,7 @@
           <b-dropdown-item v-b-modal.modalExport v-on:click="exportAll">Export All (JSON)</b-dropdown-item>
           <b-dropdown-item target="_blank" href="http://github.com/aemxn/juno-ui/">Github</b-dropdown-item>
         </b-nav-item-dropdown>
+        <b-nav-item><small>{{ getDateToday() }}</small></b-nav-item>
 
         <b-modal id="modalExport" title="Export Status" ok-only>
           <p class="my-4">{{ modalExport_msg }}</p>
@@ -25,7 +26,8 @@ export default {
   name: "navigation",
   data () {
       return {
-        modalExport_msg: ""
+        modalExport_msg: "",
+        dateToday: ""
       }
   },
   methods: {
@@ -38,6 +40,10 @@ export default {
           this.modalExport_msg = str;
         })
         .catch(error => this.modalExport_msg = error);
+    },
+
+    getDateToday() {
+      return this.$utils.getDate();
     }
   }
 };

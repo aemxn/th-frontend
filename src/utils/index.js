@@ -9,6 +9,6 @@ module.exports = {
 
     getDate: function() {
         moment().locale('ms-my');
-        return moment().format('YYYY-MM-DD HH:mm:ss');
-    },
+        return moment().format('DD MMM YYYY');
+    }
 }
