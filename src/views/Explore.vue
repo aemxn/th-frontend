@@ -62,7 +62,6 @@
                         @change="handlePageChange"
                     ></b-pagination>
                 </div>
-
             </div>
 
             <div v-else>
@@ -70,10 +69,9 @@
             </div>
         </b-col>
 
-
         <b-col cols="3">
-            <div v-if="yearByMonthsData.length > 0">
-                <p class="font-weight-bold">Timeline:</p>
+            <p class="font-weight-bold">Timeline:</p>
+            <div class="calendar-view" v-if="yearByMonthsData.length > 0">
                 <b-card v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" no-body :header="calendarDatas.year.toString()">
                     <b-list-group v-for="monthsData in calendarDatas.data" :key="monthsData.month" flush>
                         <b-list-group-item href="#" class="d-flex justify-content-between align-items-center">
@@ -218,5 +216,10 @@ export default {
 }
 .inline-form-component {
     padding-left: 0.5em;
+}
+.calendar-view {
+    max-height: 900px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 </style>
