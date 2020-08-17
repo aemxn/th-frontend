@@ -16,9 +16,8 @@
 
         <b-form-textarea required
           class="form-input"
-          size="sm"
           rows="4"
-          max-rows="8"
+          max-rows="10"
           cols="50"
           v-model="entry.body"/>
         
