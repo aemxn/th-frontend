@@ -257,7 +257,7 @@ export default {
     padding-left: 0.5em;
 }
 .calendar-view {
-    max-height: 900px;
+    max-height: 80vh;
     overflow-x: hidden;
     overflow-y: auto;
 }

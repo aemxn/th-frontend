@@ -31,7 +31,7 @@ html {
 }
 body {
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 18px;
+  font-size: 1rem;
   background-color: #f2f4f7;
   color: #262626;
 }

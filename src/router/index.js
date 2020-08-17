@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Explore from '../views/Explore.vue'
 import Create from '../views/Create.vue'
+import Analytics from '../views/Analytics.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
         path: '/create',
         name: 'Create',
         component: Create
+    },
+    {
+        path: '/analytics',
+        name: 'Analytics',
+        component: Analytics
     }
 ]
 

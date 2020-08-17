@@ -1,9 +1,11 @@
 <template>
   <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-nav>
-        <b-nav-item to="/explore">Explore</b-nav-item>
-        <b-nav-item to="/create">Create</b-nav-item>
-        <b-nav-item to="/">Analytics</b-nav-item>
+        <b-nav-item-dropdown text="Explore">
+          <b-nav-item to="/explore">All Entries</b-nav-item>
+          <b-nav-item to="/create">Create</b-nav-item>
+        </b-nav-item-dropdown>
+        <b-nav-item to="/analytics">Analytics</b-nav-item>
         <b-nav-item to="/" disabled><em>Server: {{ serverEnv }}</em></b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
