@@ -37,12 +37,11 @@
                 </b-card-group>
 
                 <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
-
-                    <p>{{ sanitize(modalBody) }}</p>
+                    <p class="modal-content">{{ sanitize(modalBody) }}</p>
 
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
-                            <p class="float-left font-italic text-muted">Date: {{ modalDate }}</p>
+                            <p class="float-left font-italic text-muted">Date: {{ formatDate(modalDate) }}</p>
                         </div>
                         <b-button class="float-right" @click="cancel()">
                             Close
@@ -214,7 +213,11 @@ export default {
         },
 
         sanitize(input) {
-            return input.replace(/\\n/g, '\n');
+            let replace = input.replace(/\\n/g, '\n')
+                            .replace(/\\'/g, '\'')
+                            .replace(/\\"/g, '"')
+                            .replace(/\\%/g, '%');
+            return unescape(replace);
         },
 
         formatDate(input) {
@@ -257,5 +260,9 @@ export default {
     max-height: 900px;
     overflow-x: hidden;
     overflow-y: auto;
+}
+.modal-content {
+    white-space: pre-wrap;
+    border: none
 }
 </style>
