@@ -10,5 +10,10 @@ module.exports = {
     getDate: function() {
         moment().locale('ms-my');
         return moment().format('DD MMM YYYY');
-    }
+    },
+
+    getMonthName: function(month) {
+        var old_date = moment(month, 'M');
+        return moment(old_date).format('MMMM');
+    },
 }

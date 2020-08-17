@@ -70,8 +70,22 @@
             </div>
         </b-col>
 
+
         <b-col cols="3">
-            Calendar view here
+            <div v-if="yearByMonthsData.length > 0">
+                <p class="font-weight-bold">Timeline:</p>
+                <b-card v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" no-body :header="calendarDatas.year.toString()">
+                    <b-list-group v-for="monthsData in calendarDatas.data" :key="monthsData.month" flush>
+                        <b-list-group-item href="#" class="d-flex justify-content-between align-items-center">
+                            {{ getMonthName(monthsData.month) }}
+                            <b-badge variant="light" pill>{{ monthsData.count }}</b-badge>
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-card>
+            </div>
+            <div v-else>
+                <EmptyView/>
+            </div>
         </b-col>
     </b-row>
 </div>
@@ -89,6 +103,7 @@ export default {
         return {
             entries: [],
             singleEntry: {},
+            yearByMonthsData: [],
             currentTutorial: null,
             currentIndex: -1,
             searchTitle: "",
@@ -106,6 +121,7 @@ export default {
 
     created: function() {
         this.fetchEntries();
+        this.fetchGroupByYear();
     },
 
     methods: {
@@ -149,6 +165,14 @@ export default {
             .catch(error => console.log(error));
         },
 
+        fetchGroupByYear() {
+            EntryDataService.groupByYear()
+            .then(response => {
+                this.yearByMonthsData = response.data.data;
+            })
+            .catch(error => console.log(error))
+        },
+
         handlePageChange(value) {
             this.page = value;
             this.fetchEntries();
@@ -165,6 +189,10 @@ export default {
 
         formatDate(input) {
             return this.$utils.formatDate(input);
+        },
+
+        getMonthName(month) {
+            return this.$utils.getMonthName(month);
         },
 
         clearSearch() {
