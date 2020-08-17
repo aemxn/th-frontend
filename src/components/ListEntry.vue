@@ -78,8 +78,6 @@ export default {
 
     updateEntry(entry) {
       let id = entry.id;
-      console.log(id);
-      console.log(entry);
       this.updating = true;
       this.updated = false;
       EntryDataService.update(id, entry)

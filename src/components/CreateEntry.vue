@@ -31,7 +31,7 @@
             rows="4"
             max-rows="8"
             cols="50"
-            v-model.trim="body"/>
+            v-model="body"/>
         </b-form-group>
       <b-button class="btn" variant="primary" type="submit">Submit</b-button>
 
@@ -60,14 +60,16 @@ export default {
   methods: {
     createEntry(event) {
       if (event) event.preventDefault();
+
       let entry = {
         title: this.title,
         date: this.date,
         body: this.body
       };
-      console.log(entry);
+
       this.creating = true;
       this.created = false;
+
       EntryDataService.create(entry)
         .then(() => {
           this.creating = false;
