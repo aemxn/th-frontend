@@ -69,17 +69,25 @@
             </div>
         </b-col>
 
+
         <b-col cols="3">
-            <p class="font-weight-bold">Timeline:</p>
-            <div class="calendar-view" v-if="yearByMonthsData.length > 0">
+            <div v-if="yearByMonthsData.length > 0">
+                <p><a v-if="selectByMonth" @click="clearSearch" href="#" class="inline-form-component text-decoration-none">View all</a></p>
+                <div class="calendar-view">
                 <b-card v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" no-body :header="calendarDatas.year.toString()">
                     <b-list-group v-for="monthsData in calendarDatas.data" :key="monthsData.month" flush>
-                        <b-list-group-item href="#" class="d-flex justify-content-between align-items-center">
+                        <b-list-group-item href="#"
+                        @click="page = 1;
+                        selectYear = calendarDatas.year;
+                        selectMonth = monthsData.month;
+                        fetchByMonth();"
+                        class="d-flex justify-content-between align-items-center">
                             {{ getMonthName(monthsData.month) }}
                             <b-badge variant="light" pill>{{ monthsData.count }}</b-badge>
                         </b-list-group-item>
                     </b-list-group>
                 </b-card>
+                </div>
             </div>
             <div v-else>
                 <EmptyView/>
@@ -102,6 +110,9 @@ export default {
             entries: [],
             singleEntry: {},
             yearByMonthsData: [],
+            selectYear: "",
+            selectMonth: "",
+            selectByMonth: false,
             currentTutorial: null,
             currentIndex: -1,
             searchTitle: "",
@@ -171,9 +182,30 @@ export default {
             .catch(error => console.log(error))
         },
 
+        fetchByMonth() {
+            let date = this.selectYear + "-" + this.selectMonth;
+            this.selectByMonth = true;
+
+            const params = this.getRequestParams(
+                this.searchTitle,
+                date,
+                this.page,
+                this.pageSize
+            );
+
+            EntryDataService.exploreByMonth(params)
+            .then(response => {
+                const { entries, totalItems } = response.data;
+                this.entries = entries;
+                this.count = totalItems;
+            })
+            .catch(error => console.log(error));
+        },
+
         handlePageChange(value) {
             this.page = value;
-            this.fetchEntries();
+            if (this.selectByMonth) this.fetchByMonth();
+            else this.fetchEntries();
         },
 
         truncate(input) {
@@ -196,6 +228,10 @@ export default {
         clearSearch() {
             this.searchTitle = "";
             this.searchDate = "";
+            this.selectMonth = "";
+            this.selectYear = "";
+            this.selectByMonth = false;
+            this.page = 1;
             this.fetchEntries();
         },
 

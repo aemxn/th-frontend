@@ -6,6 +6,7 @@ const LATEST = `${ENDPOINT}/latest`;
 const EXPLORE = `${ENDPOINT}/explore`;
 const GROUPBYYEAR = `${ENDPOINT}/groupByYear`;
 const EXPORT = `${ENDPOINT}/export`;
+const EXPLORE_BY_MONTH = `${ENDPOINT}/explore/month`;
 
 class EntryDataService {
   getLatest() {
@@ -14,6 +15,10 @@ class EntryDataService {
 
   explore(params) {
     return Axios.get(EXPLORE, { params });
+  }
+
+  exploreByMonth(params) {
+    return Axios.get(EXPLORE_BY_MONTH, { params });
   }
 
   getEntryById(id) {
