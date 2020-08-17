@@ -12,6 +12,7 @@
         <b-form-datepicker required
           class="form-input"
           size="sm"
+          :max="max"
           v-model="entry.date"/>
 
         <b-form-textarea required
@@ -46,13 +47,15 @@ export default {
     EmptyView
   },
   data() {
+    const maxDate = new Date();
     return {
       entries: [],
       doneLoading: false,
       updated: false,
       updating: false,
       noUpdate: false,
-      updateId: ""
+      updateId: "",
+      max: maxDate
     };
   },
   created: function() {

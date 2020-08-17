@@ -18,6 +18,7 @@
           label-for="input-date">
           <b-form-datepicker required
             id="input-date"
+            :max="max"
             v-model="date"/>
         </b-form-group>
 
@@ -47,14 +48,18 @@ import bus from "./../bus.js";
 
 export default {
   data() {
+    const maxDate = new Date();
+
     return {
+      
       entry: {},
       title: '',
       date: '',
       body: '',
       creating: false,
       created: false,
-      noCreate: false
+      noCreate: false,
+      max: maxDate
     };
   },
   methods: {
