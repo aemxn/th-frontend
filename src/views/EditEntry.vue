@@ -6,23 +6,38 @@
     <div v-if="entry">
     <b-card class="shadow-sm p-3 mb-5 bg-white rounded">
       <b-form @submit.prevent="updateEntry(entry)" @reset="deleteEntry(entry.id)">
-        <b-form-input required
-          class="form-input"
-          type="text"
-          v-model="entry.title"/>
+        <b-form-group
+          id="input-group-title"
+          label="Title:"
+          label-for="input-title">
+          <b-form-input required
+            id="input-title"
+            type="text"
+            v-model="entry.title"/>
+        </b-form-group>
 
-        <b-form-datepicker required
-          class="form-input"
-          size="sm"
-          :max="max"
-          v-model="entry.date"/>
+        
+        <b-form-group
+          id="input-group-date"
+          label="Date:"
+          label-for="input-date">
+          <b-form-datepicker required
+            id="input-date"
+            :max="max"
+            v-model="entry.date"/>
+        </b-form-group>
 
-        <b-form-textarea required
-          class="form-input"
-          rows="4"
-          max-rows="10"
-          cols="50"
-          v-model="entry.body"/>
+        <b-form-group
+          id="input-group-body"
+          label="Body:"
+          label-for="input-body">
+          <b-form-textarea required
+            id="input-body"
+            rows="4"
+            max-rows="10"
+            cols="50"
+            v-model="entry.body"/>
+        </b-form-group>
         
         <b-button type="submit" class="btn" size="sm" variant="outline-primary">Update</b-button>
         <!-- <b-button type="reset" class="btn" size="sm" variant="danger">Delete</b-button> -->
@@ -118,7 +133,5 @@ export default {
 </script>
 
 <style lang="scss">
-.form-input {
-  margin-bottom: 0.5em;
-}
+
 </style>
