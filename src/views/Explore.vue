@@ -44,7 +44,7 @@
 
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
-                            <p class="float-left font-italic text-muted">Date: {{ formatDate(modalDate) }}</p>
+                            <span class="font-italic text-muted">Date: {{ formatDate(modalDate) }}</span><br>
                         </div>
                         <b-button variant="info" @click="edit(modalId)">
                             Edit
@@ -131,6 +131,7 @@ export default {
             modalId: "",
             modalTitle: "",
             modalDate: "",
+            modalUpdatedDate: "",
             modalBody: ""
         }
     },
@@ -178,6 +179,7 @@ export default {
                 this.modalTitle = response.data.title;
                 this.modalBody = response.data.body;
                 this.modalDate = response.data.date;
+                this.modalUpdatedDate = response.data.updatedAt;
             })
             .catch(error => console.log(error));
         },
