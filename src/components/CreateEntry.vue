@@ -36,9 +36,9 @@
         </b-form-group>
       <b-button class="btn" variant="primary" type="submit">Submit</b-button>
 
-      <p class="font-italic text-muted"><span v-show="creating">Creating...</span></p>
-      <p class="font-italic text-muted"><span v-show="created">Created successfully</span></p>
-      <p class="font-italic text-muted"><span v-show="noCreate">Create Failed</span></p>
+      <p class="font-italic text-muted"><span v-show="creating">Creating&#8230;</span></p>
+      <p class="font-italic text-muted"><span v-show="created">{{ createdMsg }}</span></p>
+      <p class="font-italic text-muted"><span v-show="createFailed">{{ createFailedMsg }}</span></p> 
     </b-form>
   </b-card>
 </template>
@@ -51,20 +51,27 @@ export default {
     const maxDate = new Date();
 
     return {
-      
       entry: {},
       title: '',
       date: '',
       body: '',
       creating: false,
       created: false,
-      noCreate: false,
+      createFailed: false,
+      createdMsg: "",
+      createFailedMsg: "",
       max: maxDate
     };
   },
   methods: {
     createEntry(event) {
       if (event) event.preventDefault();
+
+      if (this.date === "") {
+        this.createFailed = true;
+        this.createFailedMsg = "Date not selected"
+        return;
+      }
 
       let entry = {
         title: this.title,
@@ -73,20 +80,21 @@ export default {
       };
 
       this.creating = true;
-      this.created = false;
 
       EntryDataService.create(entry)
-        .then(() => {
+        .then(response => {
           this.creating = false;
+          this.createFailed = false;
           this.created = true;
+          this.createdMsg = response.data.message;
           this.clearFields();
           this.refreshEntries();
         })
         .catch(error => {
           this.creating = false;
           this.created = false;
-          this.noCreate = true;
-          console.log(error);
+          this.createFailed = true;
+          this.createFailedMsg = error.response.data.message;
         });
     },
 

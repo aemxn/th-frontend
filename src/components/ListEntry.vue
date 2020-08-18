@@ -25,9 +25,9 @@
         <b-button type="submit" class="btn" size="sm" variant="outline-primary">Update</b-button>
         <!-- <b-button type="reset" class="btn" size="sm" variant="danger">Delete</b-button> -->
 
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating...</span></p>
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">Updated successfully</span></p>
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating&#8230;</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">{{ updatedMsg }}</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updateFailed">{{ updateFailedMsg }}</span></p>
       </b-form>
     </b-card>
     </div>
@@ -53,8 +53,10 @@ export default {
       doneLoading: false,
       updated: false,
       updating: false,
-      noUpdate: false,
+      updateFailed: false,
       updateId: "",
+      updatedMsg: "",
+      updateFailedMsg: "",
       max: maxDate
     };
   },
@@ -80,19 +82,21 @@ export default {
     updateEntry(entry) {
       let id = entry.id;
       this.updating = true;
-      this.updated = false;
+
       EntryDataService.update(id, entry)
         .then(response => {
           console.log(response);
           this.updating = false;
           this.updated = true;
+          this.updateFailed = false;
           this.updateId = id;
+          this.updatedMsg = response.data.message;
         })
         .catch(error => {
           this.updating = false;
           this.updated = false;
-          this.noUpdate = true;
-          console.log(error);
+          this.updateFailed = true;
+          this.updateFailedMsg = error.response.data.message;
         });
     },
 

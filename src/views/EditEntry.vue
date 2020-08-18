@@ -29,7 +29,7 @@
 
         <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating&#8230;</span></p>
         <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">{{ updatedMsg }}</span></p>
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="noUpdate">{{ updateErrorMsg }}</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updateFailed">{{ updateErrorMsg }}</span></p>
       </b-form>
     </b-card>
     </div>
@@ -55,13 +55,14 @@ export default {
   },
   data() {
     const maxDate = new Date();
+    
     return {
       entry: {},
       entryId: 0,
       doneLoading: false,
       updated: false,
       updating: false,
-      noUpdate: false,
+      updateFailed: false,
       updateId: "",
       updatedMsg: "",
       updateErrorMsg: "",
@@ -82,11 +83,12 @@ export default {
     updateEntry(entry) {
       let id = entry.id;
       this.updating = true;
-      this.updated = false;
+      
       EntryDataService.update(id, entry)
         .then(response => {
           this.updating = false;
           this.updated = true;
+          this.updateFailed = false;
           this.updateId = id;
           this.updatedMsg = response.data.message;
           this.fetchEntryById(this.id);
@@ -94,8 +96,8 @@ export default {
         .catch(error => {
           this.updating = false;
           this.updated = false;
-          this.noUpdate = true;
-          this.updateErrorMsg = error.message;
+          this.updateFailed = true;
+          this.updateErrorMsg = error.response.data.message;
         });
     },
 
