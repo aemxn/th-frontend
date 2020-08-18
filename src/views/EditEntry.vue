@@ -39,9 +39,9 @@
             v-model="entry.body"/>
         </b-form-group>
         
-        <b-button type="submit" class="btn" size="sm" variant="outline-primary">Update</b-button>
-        <b-button @click="navigateBack" class="btn" size="sm" variant="light">Cancel</b-button>
-        <!-- <b-button type="reset" class="btn" size="sm" variant="danger">Delete</b-button> -->
+        <b-button type="submit" variant="outline-primary">Update</b-button>
+        <b-button @click="navigateBack" class="cancel-btn" variant="light">Cancel</b-button>
+        <!-- <b-button type="reset" class="btn" variant="danger">Delete</b-button> -->
 
         <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating&#8230;</span></p>
         <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">{{ updatedMsg }}</span></p>
@@ -134,5 +134,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.cancel-btn {
+  margin-left: 1rem;
+}
 </style>

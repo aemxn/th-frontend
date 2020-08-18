@@ -40,7 +40,8 @@
 
                 <!-- MODAL -->
                 <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
-                    <p class="modal-content">{{ sanitize(modalBody) }}</p>
+                    <!-- FIXMEEEE! sanitize failed on AD 901, 516. Apparently pre can't work  -->
+                    <p>{{ sanitize(modalBody) }}</p>
 
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
@@ -277,7 +278,7 @@ export default {
     overflow-y: auto;
 }
 .modal-content {
-    white-space: pre-wrap;
+    white-space: normal;
     border: none
 }
 </style>
