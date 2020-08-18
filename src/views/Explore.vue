@@ -3,6 +3,7 @@
     <HeadingTitle firstTitle="Explore" secondTitle="Entries" />
     <b-row>
         <b-col>
+            <!-- SEARCH FORM -->
             <div class="search-form">
                 <b-form inline>
                     <label class="sr-only" for="datepicker-search">Search by date</label>
@@ -21,9 +22,10 @@
                 </b-form>
             </div>
             <p class="font-italic text-muted">Found {{ count }} entries</p>
+            <!-- CONTENT GRID -->
             <div v-if="entries.length > 0">
                 <b-card-group columns>
-                    <div deck v-for="(entry, id) in entries" v-b-modal.openModal :key="id">
+                    <div deck v-for="(entry, id) in entries" v-b-modal.entryModal :key="id">
                             <b-card
                             class="shadow-sm p-3 mb-5 bg-white rounded"
                             :title="entry.title"
@@ -36,19 +38,24 @@
                     </div>
                 </b-card-group>
 
-                <b-modal id="openModal" size="lg" scrollable :title="modalTitle">
+                <!-- MODAL -->
+                <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
                     <p class="modal-content">{{ sanitize(modalBody) }}</p>
 
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
                             <p class="float-left font-italic text-muted">Date: {{ formatDate(modalDate) }}</p>
                         </div>
-                        <b-button class="float-right" @click="cancel()">
+                        <b-button variant="info" @click="edit(modalId)">
+                            Edit
+                        </b-button>
+                        <b-button class="float-right" variant="light" @click="cancel()">
                             Close
                         </b-button>
                     </template>
                 </b-modal>
                 
+                <!-- PAGINATION -->
                 <div class="mt-3 position-relative">
                     <b-pagination pills
                         v-model="page"
@@ -68,7 +75,7 @@
             </div>
         </b-col>
 
-
+        <!-- TIMELINE/CALENDAR -->
         <b-col cols="3">
             <div v-if="yearByMonthsData.length > 0">
                 <p><a v-if="selectByMonth" @click="clearSearch" href="#" class="inline-form-component text-decoration-none">View all</a></p>
@@ -121,6 +128,7 @@ export default {
             count: 0,
             pageSize: 6,
 
+            modalId: "",
             modalTitle: "",
             modalDate: "",
             modalBody: ""
@@ -166,6 +174,7 @@ export default {
             EntryDataService.getEntryById(id)
             .then(response => {
                 this.singleEntry = response.data;
+                this.modalId = response.data.id;
                 this.modalTitle = response.data.title;
                 this.modalBody = response.data.body;
                 this.modalDate = response.data.date;
@@ -199,6 +208,10 @@ export default {
                 this.count = totalItems;
             })
             .catch(error => console.log(error));
+        },
+
+        edit(entryId) {
+            this.$router.push({ name: "Edit Entry", params: { id: entryId } });
         },
 
         handlePageChange(value) {

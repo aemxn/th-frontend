@@ -1,8 +1,10 @@
 <template>
-  <div class="col align-self-center">
-    <div v-if="entries.length > 0">
-    <b>Showing {{ entries.length }} recent entries:</b>
-    <b-card class="shadow-sm p-3 mb-5 bg-white rounded" v-bind:key="entry.id" v-for="entry in entries">
+<div>
+  <HeadingTitle firstTitle="Edit" secondTitle="Entry" />
+  <div>
+    <p><b-link href="#" class="text-decoration-none" @click="navigateBack">Go back</b-link></p>
+    <div v-if="entry">
+    <b-card class="shadow-sm p-3 mb-5 bg-white rounded">
       <b-form @submit.prevent="updateEntry(entry)" @reset="deleteEntry(entry.id)">
         <b-form-input required
           class="form-input"
@@ -25,9 +27,9 @@
         <b-button type="submit" class="btn" size="sm" variant="outline-primary">Update</b-button>
         <!-- <b-button type="reset" class="btn" size="sm" variant="danger">Delete</b-button> -->
 
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating...</span></p>
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">Updated successfully</span></p>
-        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="noUpdate">Update Failed</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updating">Updating&#8230;</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="updated">{{ updatedMsg }}</span></p>
+        <p class="font-italic text-muted"><span v-if="updateId === entry.id" v-show="noUpdate">{{ updateErrorMsg }}</span></p>
       </b-form>
     </b-card>
     </div>
@@ -35,46 +37,46 @@
         <EmptyView/>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import HeadingTitle from "../components/HeadingTitle.vue";
+import EmptyView from "../components/EmptyView.vue";
 import EntryDataService from "../services/EntryDataService";
-import EmptyView from "./EmptyView.vue";
-import bus from "./../bus.js";
 
 export default {
+  name: "edit-entry",
+  props: {
+    id: Number
+  },
   components: {
-    EmptyView
+    EmptyView, HeadingTitle
   },
   data() {
     const maxDate = new Date();
     return {
-      entries: [],
+      entry: {},
+      entryId: 0,
       doneLoading: false,
       updated: false,
       updating: false,
       noUpdate: false,
       updateId: "",
+      updatedMsg: "",
+      updateErrorMsg: "",
       max: maxDate
     };
   },
   created: function() {
-    this.fetchEntries();
-    this.listenToEvents();
-  },
-  watch: {
-    $route: function() {
-      this.doneLoading = false;
-      this.fetchEntries().then(function() {
-        this.doneLoading = true;
-      });
-    }
+    this.entryId = this.id;
+    this.fetchEntryById(this.entryId);
   },
   methods: {
-    fetchEntries() {
-      EntryDataService.getLatest()
-      .then(response => this.entries = response.data )
-      .catch(error => console.log(error));
+    fetchEntryById(id) {
+        EntryDataService.getEntryById(id)
+        .then(response => this.entry = response.data)
+        .catch(error => console.log(error));
     },
 
     updateEntry(entry) {
@@ -83,37 +85,37 @@ export default {
       this.updated = false;
       EntryDataService.update(id, entry)
         .then(response => {
-          console.log(response);
           this.updating = false;
           this.updated = true;
           this.updateId = id;
+          this.updatedMsg = response.data.message;
+          this.fetchEntryById(this.id);
         })
         .catch(error => {
           this.updating = false;
           this.updated = false;
           this.noUpdate = true;
-          console.log(error);
+          this.updateErrorMsg = error.message;
         });
     },
 
     deleteEntry(id) {
       console.log(id);
       EntryDataService.delete(id)
-      .then(() => {
-        this.fetchEntries();
-      });
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(error => console.log(error));
     },
 
-    listenToEvents() {
-      bus.$on("refreshEntries", () => {
-        this.fetchEntries(); //update entry
-      });
+    navigateBack() {
+      this.$router.go(-1);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .form-input {
   margin-bottom: 0.5em;
 }

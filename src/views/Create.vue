@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import CreateEntry from "../components/CreateEntry";
+import CreateEntry from "../components/CreateEntry.vue";
 import ListEntry from "../components/ListEntry.vue";
 import HeadingTitle from "../components/HeadingTitle.vue";
 
