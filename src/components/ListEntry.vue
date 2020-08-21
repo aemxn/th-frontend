@@ -7,7 +7,13 @@
         <b-form-input required
           class="form-input"
           type="text"
+          :state="titleState"
+          aria-describedby="input-title-validation"
           v-model="entry.title"/>
+
+        <b-form-invalid-feedback id="input-title-validation">
+          Title must not exceed {{ maxTitleLength }} characters
+        </b-form-invalid-feedback>
 
         <b-form-datepicker required
           class="form-input"
@@ -57,7 +63,9 @@ export default {
       updateId: "",
       updatedMsg: "",
       updateFailedMsg: "",
-      max: maxDate
+      max: maxDate,
+      titleState: true,
+      maxTitleLength: 80
     };
   },
   created: function() {
@@ -83,6 +91,13 @@ export default {
       let id = entry.id;
       this.updating = true;
 
+      if (entry.title.length > this.maxTitleLength) {
+        this.titleState = false;
+        return;
+      }
+
+      this.titleState = true;
+      
       EntryDataService.update(id, entry)
         .then(response => {
           console.log(response);

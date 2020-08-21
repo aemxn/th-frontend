@@ -8,8 +8,14 @@
           <b-form-input required
             type="text"
             id="input-title"
+            :state="titleState"
+            aria-describedby="input-title-validation"
             placeholder="Enter title"
             v-model="title"/>
+
+          <b-form-invalid-feedback id="input-title-validation">
+            Title must not exceed {{ maxTitleLength }} characters
+          </b-form-invalid-feedback>
         </b-form-group>
         
         <b-form-group
@@ -60,7 +66,8 @@ export default {
       createFailed: false,
       createdMsg: "",
       createFailedMsg: "",
-      max: maxDate
+      max: maxDate,
+      maxTitleLength: 80
     };
   },
   methods: {
@@ -72,6 +79,8 @@ export default {
         this.createFailedMsg = "Date not selected"
         return;
       }
+
+      if (this.title.length > this.maxTitleLength) return;
 
       let entry = {
         title: this.title,
@@ -106,6 +115,11 @@ export default {
 
     refreshEntries() {
       bus.$emit("refreshEntries");
+    }
+  },
+  computed: {
+    titleState() {
+      return this.title.length > this.maxTitleLength ? false : true
     }
   }
 };
