@@ -5,6 +5,7 @@
           <b-nav-item to="/explore">All Entries</b-nav-item>
           <b-nav-item to="/create">Create</b-nav-item>
         </b-nav-item-dropdown>
+        <b-nav-item to="/notes">Notes</b-nav-item>
         <b-nav-item to="/analytics">Analytics</b-nav-item>
         <b-nav-item to="/" disabled><em>Server: {{ serverEnv }}</em></b-nav-item>
       </b-navbar-nav>
@@ -32,7 +33,7 @@ export default {
       return {
         modalExport_msg: "",
         dateToday: "",
-        serverEnv: "sdf"
+        serverEnv: ""
       }
   },
   created: function() {

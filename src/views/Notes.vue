@@ -1,6 +1,6 @@
 <template>
 <div>
-    <HeadingTitle firstTitle="Analytics" secondTitle="" />
+    <HeadingTitle firstTitle="Notes" secondTitle="" />
     <!-- metadata of updating entry -->
     <!-- forms similar from create -->
     <div v-if="id">

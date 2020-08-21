@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Explore from '../views/Explore.vue'
 import Create from '../views/Create.vue'
 import Analytics from '../views/Analytics.vue'
+import Notes from '../views/Notes.vue'
 import EditEntry from '../views/EditEntry.vue'
 
 Vue.use(VueRouter)
@@ -27,6 +28,11 @@ const routes = [
         path: '/analytics',
         name: 'Analytics',
         component: Analytics
+    },
+    {
+        path: '/notes',
+        name: 'Notes',
+        component: Notes
     },
     {
         path: '/edit-entry/:id',
