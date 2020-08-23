@@ -1,6 +1,6 @@
 <template>
 <div>
-    <HeadingTitle firstTitle="Explore" secondTitle="Entries" />
+    <HeadingTitle firstTitle="Explore" secondTitle="Journal" />
     <b-row>
         <b-col>
             <!-- SEARCH FORM -->

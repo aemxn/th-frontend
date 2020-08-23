@@ -1,8 +1,8 @@
 <template>
   <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-nav>
-        <b-nav-item-dropdown text="Explore">
-          <b-nav-item to="/explore">All Entries</b-nav-item>
+        <b-nav-item-dropdown text="Journal">
+          <b-nav-item to="/explore">Explore</b-nav-item>
           <b-nav-item to="/create">Create</b-nav-item>
         </b-nav-item-dropdown>
         <b-nav-item to="/notes">Notes</b-nav-item>
