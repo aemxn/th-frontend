@@ -236,7 +236,8 @@ export default {
         },
 
         sanitize(input) {
-            let replace = input.replace(/\\n/g, '\n')
+            let replace = input.trim()
+                            .replace(/\\n/g, '\n')
                             .replace(/\\'/g, '\'')
                             .replace(/\\"/g, '"')
                             .replace(/\\%/g, '%');
