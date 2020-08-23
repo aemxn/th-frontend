@@ -1,12 +1,16 @@
-# Juno (Client)
+# Juno
 
-![Screenshot v1](https://raw.githubusercontent.com/aemxn/juno-ui/master/_screenshot/ss-v1.jpg)
+Juno was intentionally built as a platform to write daily journal and as a note taking app.
+
+[Screenshot v1][ss-v1]
 
 ## Prerequisite
 
 This project needs the backend server located in [Juno (Server)][2].
 
-Start the server first before building this project.
+> It is advised to run these instances on your local machine to ensure privacy of your data. However, I do not enforce this rule inside the code. Users are free to host it anywhere on a webserver or anything.
+
+Start the server first before building client.
 
 Project setup:
 ```
@@ -148,3 +152,4 @@ export default {
 [2]: https://github.com/aemxn/juno-server
 [3]: https://router.vuejs.org/
 [4]: https://medium.com/@akgarg007/vuejs-created-vs-mounted-life-cycle-hooks-74c522b9ceee
+[ss-v1]: https://raw.githubusercontent.com/aemxn/juno-ui/master/_screenshot/ss-v1.jpg
