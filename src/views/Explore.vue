@@ -128,6 +128,7 @@ export default {
             selectByMonth: false,
             currentTutorial: null,
             currentIndex: -1,
+            truncateLength: 300,
             searchTitle: "",
             searchDate: "",
 
@@ -230,7 +231,7 @@ export default {
         },
 
         truncate(input) {
-            var output = input.length > 100 ? `${input.substring(0, 300)}...` : input;
+            var output = input.length > this.truncateLength ? `${input.substring(0, this.truncateLength)} ...` : input;
             return this.sanitize(output);
         },
 
