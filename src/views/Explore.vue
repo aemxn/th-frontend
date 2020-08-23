@@ -40,9 +40,7 @@
 
                 <!-- MODAL -->
                 <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
-                    <!-- FIXMEEEE! sanitize failed on AD 901, 516. Apparently pre can't work  -->
                     <p class="modal-content">{{ sanitize(modalBody) }}</p>
-
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
                             <span class="font-italic text-muted">Date: {{ formatDate(modalDate) }}</span><br>
@@ -84,9 +82,7 @@
 
                 <div role="tablist">
                     <b-card no-body v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" class="mb-1">
-                    <b-card-header header-tag="header" class="p-1" role="tab">
-                        <b-button block v-b-toggle="'accordion-' + calendarDatas.year" variant="light">{{ calendarDatas.year }}</b-button>
-                    </b-card-header>
+                    <b-button block v-b-toggle="'accordion-' + calendarDatas.year" variant="primary">{{ calendarDatas.year }}</b-button>
                     <b-collapse
                     v-for="monthsData in calendarDatas.data" :key="monthsData.month"
                     :id="'accordion-' + calendarDatas.year"
