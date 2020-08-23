@@ -78,11 +78,20 @@
 
         <!-- TIMELINE/CALENDAR -->
         <b-col cols="3">
-            <div v-if="yearByMonthsData.length > 0">
+            <div class="calendar-view" v-if="yearByMonthsData.length > 0"> 
+                <p class="text-muted">Timeline:</p>
                 <p><a v-if="selectByMonth" @click="clearSearch" href="#" class="inline-form-component text-decoration-none">View all</a></p>
-                <div class="calendar-view">
-                <b-card v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" no-body :header="calendarDatas.year.toString()">
-                    <b-list-group v-for="monthsData in calendarDatas.data" :key="monthsData.month" flush>
+
+                <div role="tablist">
+                    <b-card no-body v-for="calendarDatas in yearByMonthsData" :key="calendarDatas.year" class="mb-1">
+                    <b-card-header header-tag="header" class="p-1" role="tab">
+                        <b-button block v-b-toggle="'accordion-' + calendarDatas.year" variant="light">{{ calendarDatas.year }}</b-button>
+                    </b-card-header>
+                    <b-collapse
+                    v-for="monthsData in calendarDatas.data" :key="monthsData.month"
+                    :id="'accordion-' + calendarDatas.year"
+                    :accordion="'accordion-' + calendarDatas.year"
+                    role="tabpanel">
                         <b-list-group-item href="#"
                         @click="page = 1;
                         selectYear = calendarDatas.year;
@@ -92,12 +101,9 @@
                             {{ getMonthName(monthsData.month) }}
                             <b-badge variant="light" pill>{{ monthsData.count }}</b-badge>
                         </b-list-group-item>
-                    </b-list-group>
-                </b-card>
+                    </b-collapse>
+                    </b-card>
                 </div>
-            </div>
-            <div v-else>
-                <EmptyView/>
             </div>
         </b-col>
     </b-row>
