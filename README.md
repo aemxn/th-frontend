@@ -1,9 +1,8 @@
-# Juno
-### UI
+# Juno (Client)
 
-p/s: I suck at front-end, so I just copy and pasted the boilerplate from [this guy][1].
+![Screenshot v1](https://raw.githubusercontent.com/aemxn/juno-ui/master/_screenshot/ss-v1.jpg)
 
-### Prerequisite
+## Prerequisite
 
 This project needs the backend server located in [Juno (Server)][2].
 
@@ -14,7 +13,7 @@ Project setup:
 $ npm install
 ```
 
-### Building for browser
+## Building for browser
 
 Compiles and hot-reloads for development:
 ```
@@ -34,7 +33,7 @@ $ npm run lint
 Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### Building for Electron app
+## Building for Electron app
 
 Compiles for development build:
 ```
@@ -48,9 +47,9 @@ Compiles for production:
 $ npm run electron:build
 ```
 
-### Code
+## Code
 
-#### Adding a router
+### Adding a router
 
 1. Create a new .vue file in `/views` (strictly for layout files)
 2. Add the path in `router/index.js`
@@ -76,7 +75,7 @@ navigate() {
 
 RTFM: https://router.vuejs.org/
 
-#### View/component template
+### View/component template
 
 1. Create a new .vue file in `/views` or `/components`
 2. Use this template
@@ -137,11 +136,11 @@ export default {
 ```
 
 ---
-
+- Boilerplate UI from [this guy][1]
 - Bootstrap Vue: https://bootstrap-vue.org/docs/components/
 - Bootstrap: https://getbootstrap.com/docs/4.5/utilities/
 - Axios: https://github.com/axios/axios
-- Vue lifecycle: [https://medium.com/@akgarg007/vuejs-created-vs-mounted-life-cycle-hooks-74c522b9ceee](https://medium.com/@akgarg007/vuejs-created-vs-mounted-life-cycle-hooks-74c522b9ceee) / [Cheatsheet](https://imgur.com/B7uFZGc)
+- Vue lifecycle: [https://medium.com/@akgarg007/vuejs-created-vs-mounted-life-cycle-hooks-74c522b9ceee][4]/ [Cheatsheet](https://imgur.com/B7uFZGc)
 )
 
 [1]: https://dev.to/abiodunjames/build-a-todo-app-with-nodejs-expressjs-mongodb-and-vuejs--part-2--3k11
