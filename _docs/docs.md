@@ -1,6 +1,10 @@
-## Code
+<h3>Table of Contents</h3>
 
-### Adding a router
+- [Adding a router](#adding-a-router)
+- [View/component template](#viewcomponent-template)
+- [Read](#read)
+
+## Adding a router
 
 1. Create a new .vue file in `/views` (strictly for layout files)
 2. Add the path in `router/index.js`
@@ -26,7 +30,7 @@ navigate() {
 
 RTFM: https://router.vuejs.org/
 
-### View/component template
+## View/component template
 
 1. Create a new .vue file in `/views` or `/components`
 2. Use this template
@@ -86,7 +90,9 @@ export default {
 </style>
 ```
 
----
+
+## Read
+
 - Boilerplate UI from [this guy][1]
 - Bootstrap Vue: https://bootstrap-vue.org/docs/components/
 - Bootstrap: https://getbootstrap.com/docs/4.5/utilities/
