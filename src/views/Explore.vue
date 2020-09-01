@@ -40,7 +40,9 @@
 
                 <!-- MODAL -->
                 <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
-                    <p class="modal-content">{{ sanitize(modalBody) }}</p>
+                    <div class="modal-content">
+                        <p class="wrap">{{ sanitize(modalBody) }}</p>
+                    </div>
                     <template v-slot:modal-footer="{ cancel }">
                         <div class="w-100">
                             <span class="font-italic text-muted">Date: {{ formatDate(modalDate) }}</span><br>
@@ -284,6 +286,8 @@ export default {
 .modal-content {
     white-space: pre-line;
     border: none;
+}
+.wrap {
     max-height: 100%;
 }
 </style>
