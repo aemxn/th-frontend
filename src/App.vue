@@ -1,7 +1,6 @@
 <template>
   <div>
     <Navigation />
-    
     <div class="cont">
       <router-view />
     </div>
@@ -10,11 +9,23 @@
 
 <script>
 import Navigation from "./components/Navigation.vue";
+import { USER_REQUEST } from "./store/actions/user";
 
 export default {
   name: "app",
   components: {
     Navigation
+  },
+  data () {
+      return {
+      }
+  },
+  created: function() {
+    if (this.$store.getters.isAuthenticated) {
+      this.$store.dispatch(USER_REQUEST);
+    }
+  },
+  methods: {
   }
 };
 </script>

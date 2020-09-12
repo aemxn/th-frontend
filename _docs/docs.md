@@ -2,6 +2,7 @@
 
 - [Adding a router](#adding-a-router)
 - [View/component template](#viewcomponent-template)
+- [Event Bus](#event-bus)
 - [Read](#read)
 
 ## Adding a router
@@ -89,7 +90,36 @@ export default {
 <style lang="scss">
 </style>
 ```
+## Event Bus
 
+**Emit**
+
+```javascript
+import bus from "./../bus.js";
+
+...
+
+onRefreshEntries() {
+    bus.$emit("refreshEntries");
+}
+```
+
+**Receive**
+
+```javascript
+import bus from "./../bus.js";
+
+...
+
+created: function() {
+    this.onRefreshEntries();
+},
+onRefreshEntries() {
+    bus.$on("refreshEntries", () => {
+        // do event
+    });
+}
+```
 
 ## Read
 

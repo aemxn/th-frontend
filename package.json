@@ -25,7 +25,9 @@
     "core-js": "^3.6.5",
     "moment": "^2.27.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.3"
+    "vue-router": "^3.4.3",
+    "vue-verification-code-input": "^1.0.0",
+    "vuex": "^3.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
