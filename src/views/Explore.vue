@@ -39,7 +39,7 @@
                 </b-card-group>
 
                 <!-- MODAL -->
-                <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
+                <b-modal id="entryModal" size="lg" :title="modalTitle">
                     <div class="modal-content">
                         <p class="wrap">{{ sanitize(modalBody) }}</p>
                     </div>
