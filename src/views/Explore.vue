@@ -14,10 +14,10 @@
                     id="inline-form-input-name"
                     class="mb-2 mr-sm-2 mb-sm-0"
                     placeholder="Search by title or body"
-                    v-model="searchTitle"
+                    v-model="searchQuery"
                     ></b-input>
                     <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
-                    <small><a v-if="searchDate || searchTitle" @click="clearSearch" href="#"
+                    <small><a v-if="searchDate || searchQuery" @click="clearSearch" href="#"
                     class="inline-form-component font-italic text-decoration-none">Clear search</a></small>
                 </b-form>
             </div>
@@ -104,24 +104,24 @@ export default {
             entries: [],
             singleEntry: {},
             yearByMonthsData: [],
-            selectYear: "",
-            selectMonth: "",
+            selectYear: '',
+            selectMonth: '',
             selectByMonth: false,
             currentTutorial: null,
             currentIndex: -1,
             truncateLength: 300,
-            searchTitle: "",
-            searchDate: "",
+            searchQuery: '',
+            searchDate: '',
 
             page: 1,
             count: 0,
             pageSize: 6,
 
-            modalId: "",
-            modalTitle: "",
-            modalDate: "",
-            modalUpdatedDate: "",
-            modalBody: ""
+            modalId: '',
+            modalTitle: '',
+            modalDate: '',
+            modalUpdatedDate: '',
+            modalBody: ''
         }
     },
 
@@ -131,11 +131,11 @@ export default {
     },
 
     methods: {
-        getRequestParams(searchTitle, searchDate, page, pageSize) {
+        getRequestParams(searchQuery, searchDate, page, pageSize) {
             let params = {};
 
-            params["query"] = searchTitle ? searchTitle : "";
-            params["date"] = searchDate ? searchDate : "";
+            params["query"] = searchQuery ? searchQuery : '';
+            params["date"] = searchDate ? searchDate : '';
 
             if (page) params["page"] = page - 1;
             if (pageSize) params["size"] = pageSize;
@@ -145,7 +145,7 @@ export default {
 
         fetchEntries() {
             const params = this.getRequestParams(
-                this.searchTitle,
+                this.searchQuery,
                 this.searchDate,
                 this.page,
                 this.pageSize
@@ -216,7 +216,7 @@ export default {
             this.selectByMonth = true;
 
             const params = this.getRequestParams(
-                this.searchTitle,
+                this.searchQuery,
                 date,
                 this.page,
                 this.pageSize
@@ -292,10 +292,10 @@ export default {
         },
 
         clearSearch() {
-            this.searchTitle = "";
-            this.searchDate = "";
-            this.selectMonth = "";
-            this.selectYear = "";
+            this.searchQuery = '';
+            this.searchDate = '';
+            this.selectMonth = '';
+            this.selectYear = '';
             this.selectByMonth = false;
             this.page = 1;
             this.fetchEntries();
