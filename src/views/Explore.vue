@@ -25,7 +25,7 @@
             <!-- CONTENT GRID -->
             <div v-if="entries.length > 0">
                 <b-card-group columns>
-                    <div deck v-for="(entry, id) in entries" v-b-modal.entryModal :key="id">
+                    <div deck v-for="(entry, id) in entries" :key="id">
                             <b-card
                             class="shadow-sm p-3 mb-5 bg-white rounded"
                             :title="entry.title"
@@ -37,24 +37,6 @@
                             </b-card>
                     </div>
                 </b-card-group>
-
-                <!-- MODAL -->
-                <b-modal id="entryModal" size="lg" :title="modalTitle">
-                    <div class="modal-content">
-                        <p class="wrap">{{ sanitize(modalBody) }}</p>
-                    </div>
-                    <template v-slot:modal-footer="{ cancel }">
-                        <div class="w-100">
-                            <span class="font-italic text-muted">Date: {{ formatDate(modalDate) }}</span><br>
-                        </div>
-                        <b-button variant="info" @click="edit(modalId)">
-                            Edit
-                        </b-button>
-                        <b-button class="float-right" variant="light" @click="cancel()">
-                            Close
-                        </b-button>
-                    </template>
-                </b-modal>
                 
                 <!-- PAGINATION -->
                 <div class="mt-3 position-relative">
@@ -186,10 +168,40 @@ export default {
                 this.modalBody = response.data.body;
                 this.modalDate = response.data.date;
                 this.modalUpdatedDate = response.data.updatedAt;
+                this.showModal(this.modalTitle, this.modalBody, this.modalDate, this.modalId);
             })
             .catch(error => console.log(error));
         },
 
+        showModal(title, body, date, modalId) {
+            console.log(this.sanitize(body));
+            const h = this.$createElement
+
+            const dateStr = '<span class="font-italic text-muted"><small>' + this.formatDate(date) + '</small></span>';
+            const titleStr = '<strong>' + title + '</strong>' + '<br/>' + dateStr;
+
+            const titleVNode = h('div', { domProps: { innerHTML: titleStr } })
+            const messageVNode = h('div', { class: ['modal-content'] }, [
+            h('p', { domProps: { innerHTML: this.sanitize(body) } })
+            ]);
+
+            this.$bvModal.msgBoxConfirm([messageVNode], {
+                title: [titleVNode],
+                size: 'lg',
+                buttonSize: 'sm',
+                okVariant: 'danger',
+                okTitle: 'Close',
+                cancelTitle: 'Edit',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+            }).then(isClose => {
+                if (isClose === false) this.edit(modalId);
+            }).catch(err => {
+                throw new String(err.message);
+            })
+        },
+        
         fetchGroupByYear() {
             EntryDataService.groupByYear()
             .then(response => {
@@ -284,10 +296,7 @@ export default {
     overflow-y: auto;
 }
 .modal-content {
-    white-space: pre-line;
+    white-space: pre-wrap;
     border: none;
-}
-.wrap {
-    max-height: 100%;
 }
 </style>
