@@ -27,7 +27,7 @@
                 <b-card-group columns>
                     <div deck v-for="(entry, id) in entries" :key="id">
                             <b-card
-                            class="shadow-sm p-3 mb-5 bg-white rounded"
+                            class="shadow-sm p-3 mb-5 rounded card-grid"
                             :title="entry.title"
                             :sub-title="formatDate(entry.date)"
                             @click="fetchEntryById(entry.id)">
@@ -327,5 +327,9 @@ export default {
 .modal-content {
     white-space: pre-wrap;
     border: none;
+}
+.card-grid:hover {
+    background-color: lightgray;
+    cursor: pointer;
 }
 </style>
