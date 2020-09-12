@@ -14,10 +14,10 @@
                     id="inline-form-input-name"
                     class="mb-2 mr-sm-2 mb-sm-0"
                     placeholder="Search by title or body"
-                    v-model="searchTitle"
+                    v-model="searchQuery"
                     ></b-input>
                     <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
-                    <small><a v-if="searchDate || searchTitle" @click="clearSearch" href="#"
+                    <small><a v-if="searchDate || searchQuery" @click="clearSearch" href="#"
                     class="inline-form-component font-italic text-decoration-none">Clear search</a></small>
                 </b-form>
             </div>
@@ -25,36 +25,18 @@
             <!-- CONTENT GRID -->
             <div v-if="entries.length > 0">
                 <b-card-group columns>
-                    <div deck v-for="(entry, id) in entries" v-b-modal.entryModal :key="id">
+                    <div deck v-for="(entry, id) in entries" :key="id">
                             <b-card
                             class="shadow-sm p-3 mb-5 bg-white rounded"
                             :title="entry.title"
                             :sub-title="formatDate(entry.date)"
                             @click="fetchEntryById(entry.id)">
                                 <b-card-text>
-                                    {{ truncate(entry.body) }}
+                                    {{ displayContent(entry.body, false) }}
                                 </b-card-text>
                             </b-card>
                     </div>
                 </b-card-group>
-
-                <!-- MODAL -->
-                <b-modal id="entryModal" size="lg" scrollable :title="modalTitle">
-                    <div class="modal-content">
-                        <p class="wrap">{{ sanitize(modalBody) }}</p>
-                    </div>
-                    <template v-slot:modal-footer="{ cancel }">
-                        <div class="w-100">
-                            <span class="font-italic text-muted">Date: {{ formatDate(modalDate) }}</span><br>
-                        </div>
-                        <b-button variant="info" @click="edit(modalId)">
-                            Edit
-                        </b-button>
-                        <b-button class="float-right" variant="light" @click="cancel()">
-                            Close
-                        </b-button>
-                    </template>
-                </b-modal>
                 
                 <!-- PAGINATION -->
                 <div class="mt-3 position-relative">
@@ -112,6 +94,7 @@
 import EntryDataService from "../services/EntryDataService";
 import EmptyView from "../components/EmptyView.vue";
 import HeadingTitle from "../components/HeadingTitle.vue";
+var linkify = require('linkify-it')();
 
 export default {
     name: 'explore',
@@ -121,24 +104,24 @@ export default {
             entries: [],
             singleEntry: {},
             yearByMonthsData: [],
-            selectYear: "",
-            selectMonth: "",
+            selectYear: '',
+            selectMonth: '',
             selectByMonth: false,
             currentTutorial: null,
             currentIndex: -1,
             truncateLength: 300,
-            searchTitle: "",
-            searchDate: "",
+            searchQuery: '',
+            searchDate: '',
 
             page: 1,
             count: 0,
             pageSize: 6,
 
-            modalId: "",
-            modalTitle: "",
-            modalDate: "",
-            modalUpdatedDate: "",
-            modalBody: ""
+            modalId: '',
+            modalTitle: '',
+            modalDate: '',
+            modalUpdatedDate: '',
+            modalBody: ''
         }
     },
 
@@ -148,11 +131,11 @@ export default {
     },
 
     methods: {
-        getRequestParams(searchTitle, searchDate, page, pageSize) {
+        getRequestParams(searchQuery, searchDate, page, pageSize) {
             let params = {};
 
-            params["query"] = searchTitle ? searchTitle : "";
-            params["date"] = searchDate ? searchDate : "";
+            params["query"] = searchQuery ? searchQuery : '';
+            params["date"] = searchDate ? searchDate : '';
 
             if (page) params["page"] = page - 1;
             if (pageSize) params["size"] = pageSize;
@@ -162,7 +145,7 @@ export default {
 
         fetchEntries() {
             const params = this.getRequestParams(
-                this.searchTitle,
+                this.searchQuery,
                 this.searchDate,
                 this.page,
                 this.pageSize
@@ -186,10 +169,40 @@ export default {
                 this.modalBody = response.data.body;
                 this.modalDate = response.data.date;
                 this.modalUpdatedDate = response.data.updatedAt;
+                this.showModal(this.modalTitle, this.modalBody, this.modalDate, this.modalId);
             })
             .catch(error => console.log(error));
         },
 
+        showModal(title, body, date, modalId) {
+            const h = this.$createElement
+
+            const dateStr = '<span class="font-italic text-muted"><small>' + this.formatDate(date) + '</small></span>';
+            const titleStr = '<strong>' + title + '</strong>' + '<br/>' + dateStr;
+
+            const titleVNode = h('div', { domProps: { innerHTML: titleStr } })
+            const messageVNode = h('div', { class: ['modal-content'] }, [
+            h('p', { domProps: { innerHTML: this.displayContent(body, true) } })
+            ]);
+
+            this.$bvModal.msgBoxConfirm([messageVNode], {
+                title: [titleVNode],
+                size: 'lg',
+                buttonSize: 'sm',
+                okVariant: 'danger',
+                cancelVariant: 'light',
+                okTitle: 'Close',
+                cancelTitle: 'Edit',
+                footerClass: 'p-2',
+                hideHeaderClose: false,
+                centered: true
+            }).then(isClose => {
+                if (isClose === false) this.edit(modalId);
+            }).catch(err => {
+                throw new String(err.message);
+            })
+        },
+        
         fetchGroupByYear() {
             EntryDataService.groupByYear()
             .then(response => {
@@ -203,7 +216,7 @@ export default {
             this.selectByMonth = true;
 
             const params = this.getRequestParams(
-                this.searchTitle,
+                this.searchQuery,
                 date,
                 this.page,
                 this.pageSize
@@ -230,16 +243,44 @@ export default {
 
         truncate(input) {
             var output = input.length > this.truncateLength ? `${input.substring(0, this.truncateLength)} ...` : input;
-            return this.sanitize(output);
+            return output;
         },
 
-        sanitize(input) {
-            let replace = input.trim()
+        displayContent(content, isModal) {
+            // sanitize
+            let replace = content.trim()
                             .replace(/\\n/g, '\n')
                             .replace(/\\'/g, '\'')
                             .replace(/\\"/g, '"')
                             .replace(/\\%/g, '%');
-            return unescape(replace);
+
+            let out     = escape(replace),
+                matches = linkify.match(replace),
+                result  = [],
+                last;
+
+            if (matches) {
+                last = 0;
+                matches.forEach(function (match) {
+                if (last < match.index) {
+                    result.push(escape(replace.slice(last, match.index)).replace(/\r?\n/g, '<br>'));
+                }
+                result.push('<a target="_blank" href="');
+                result.push(escape(match.url));
+                result.push('">');
+                result.push(escape(match.text));
+                result.push('</a>');
+                last = match.lastIndex;
+                });
+                if (last < replace.length) {
+                result.push(escape(replace.slice(last)).replace(/\r?\n/g, '<br>'));
+                }
+                out = result.join('');
+            }
+
+            let unescaped = unescape(out);
+
+            return (isModal) ? unescaped : this.truncate(replace);
         },
 
         formatDate(input) {
@@ -251,10 +292,10 @@ export default {
         },
 
         clearSearch() {
-            this.searchTitle = "";
-            this.searchDate = "";
-            this.selectMonth = "";
-            this.selectYear = "";
+            this.searchQuery = '';
+            this.searchDate = '';
+            this.selectMonth = '';
+            this.selectYear = '';
             this.selectByMonth = false;
             this.page = 1;
             this.fetchEntries();
@@ -284,10 +325,7 @@ export default {
     overflow-y: auto;
 }
 .modal-content {
-    white-space: pre-line;
+    white-space: pre-wrap;
     border: none;
-}
-.wrap {
-    max-height: 100%;
 }
 </style>
