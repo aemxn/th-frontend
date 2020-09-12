@@ -32,7 +32,7 @@
                             :sub-title="formatDate(entry.date)"
                             @click="fetchEntryById(entry.id)">
                                 <b-card-text>
-                                    {{ truncate(entry.body) }}
+                                    {{ displayContent(entry.body, false) }}
                                 </b-card-text>
                             </b-card>
                     </div>
@@ -94,6 +94,7 @@
 import EntryDataService from "../services/EntryDataService";
 import EmptyView from "../components/EmptyView.vue";
 import HeadingTitle from "../components/HeadingTitle.vue";
+var linkify = require('linkify-it')();
 
 export default {
     name: 'explore',
@@ -174,7 +175,6 @@ export default {
         },
 
         showModal(title, body, date, modalId) {
-            console.log(this.sanitize(body));
             const h = this.$createElement
 
             const dateStr = '<span class="font-italic text-muted"><small>' + this.formatDate(date) + '</small></span>';
@@ -182,7 +182,7 @@ export default {
 
             const titleVNode = h('div', { domProps: { innerHTML: titleStr } })
             const messageVNode = h('div', { class: ['modal-content'] }, [
-            h('p', { domProps: { innerHTML: this.sanitize(body) } })
+            h('p', { domProps: { innerHTML: this.displayContent(body, true) } })
             ]);
 
             this.$bvModal.msgBoxConfirm([messageVNode], {
@@ -190,6 +190,7 @@ export default {
                 size: 'lg',
                 buttonSize: 'sm',
                 okVariant: 'danger',
+                cancelVariant: 'light',
                 okTitle: 'Close',
                 cancelTitle: 'Edit',
                 footerClass: 'p-2',
@@ -242,16 +243,44 @@ export default {
 
         truncate(input) {
             var output = input.length > this.truncateLength ? `${input.substring(0, this.truncateLength)} ...` : input;
-            return this.sanitize(output);
+            return output;
         },
 
-        sanitize(input) {
-            let replace = input.trim()
+        displayContent(content, isModal) {
+            // sanitize
+            let replace = content.trim()
                             .replace(/\\n/g, '\n')
                             .replace(/\\'/g, '\'')
                             .replace(/\\"/g, '"')
                             .replace(/\\%/g, '%');
-            return unescape(replace);
+
+            let out     = escape(replace),
+                matches = linkify.match(replace),
+                result  = [],
+                last;
+
+            if (matches) {
+                last = 0;
+                matches.forEach(function (match) {
+                if (last < match.index) {
+                    result.push(escape(replace.slice(last, match.index)).replace(/\r?\n/g, '<br>'));
+                }
+                result.push('<a target="_blank" href="');
+                result.push(escape(match.url));
+                result.push('">');
+                result.push(escape(match.text));
+                result.push('</a>');
+                last = match.lastIndex;
+                });
+                if (last < replace.length) {
+                result.push(escape(replace.slice(last)).replace(/\r?\n/g, '<br>'));
+                }
+                out = result.join('');
+            }
+
+            let unescaped = unescape(out);
+
+            return (isModal) ? unescaped : this.truncate(replace);
         },
 
         formatDate(input) {
