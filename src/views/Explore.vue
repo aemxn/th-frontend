@@ -16,7 +16,8 @@
                     placeholder="Search by title or body"
                     v-model="searchQuery"
                     ></b-input>
-                    <b-button variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
+                    <b-button id="btn-search" variant="primary" @click="page = 1; fetchEntries();">Search</b-button>
+                    <b-button id="btn-random" variant="outline-primary" @click="random">Random</b-button>
                     <small><a v-if="searchDate || searchQuery" @click="clearSearch" href="#"
                     class="inline-form-component font-italic text-decoration-none">Clear search</a></small>
                 </b-form>
@@ -115,13 +116,7 @@ export default {
 
             page: 1,
             count: 0,
-            pageSize: 6,
-
-            modalId: '',
-            modalTitle: '',
-            modalDate: '',
-            modalUpdatedDate: '',
-            modalBody: ''
+            pageSize: 6
         }
     },
 
@@ -160,29 +155,33 @@ export default {
             .catch(error => console.log(error));
         },
 
-        fetchEntryById(id) {
-            EntryDataService.getEntryById(id)
+        random() {
+            EntryDataService.random()
             .then(response => {
                 this.singleEntry = response.data;
-                this.modalId = response.data.id;
-                this.modalTitle = response.data.title;
-                this.modalBody = response.data.body;
-                this.modalDate = response.data.date;
-                this.modalUpdatedDate = response.data.updatedAt;
-                this.showModal(this.modalTitle, this.modalBody, this.modalDate, this.modalId);
+                this.showModal(response.data);
             })
             .catch(error => console.log(error));
         },
 
-        showModal(title, body, date, modalId) {
+        fetchEntryById(id) {
+            EntryDataService.getEntryById(id)
+            .then(response => {
+                this.singleEntry = response.data;
+                this.showModal(response.data);
+            })
+            .catch(error => console.log(error));
+        },
+
+        showModal(data) {
             const h = this.$createElement
 
-            const dateStr = '<span class="font-italic text-muted"><small>' + this.formatDate(date) + '</small></span>';
-            const titleStr = '<strong>' + title + '</strong>' + '<br/>' + dateStr;
+            const dateStr = '<span class="font-italic text-muted"><small>' + this.formatDate(data.date) + '</small></span>';
+            const titleStr = '<strong>' + data.title + '</strong>' + '<br/>' + dateStr;
 
             const titleVNode = h('div', { domProps: { innerHTML: titleStr } })
             const messageVNode = h('div', { class: ['modal-content'] }, [
-            h('p', { domProps: { innerHTML: this.displayContent(body, true) } })
+            h('p', { domProps: { innerHTML: this.displayContent(data.body, true) } })
             ]);
 
             this.$bvModal.msgBoxConfirm([messageVNode], {
@@ -197,7 +196,7 @@ export default {
                 hideHeaderClose: false,
                 centered: true
             }).then(isClose => {
-                if (isClose === false) this.edit(modalId);
+                if (isClose === false) this.edit(data.id);
             }).catch(err => {
                 throw new String(err.message);
             })
@@ -331,5 +330,8 @@ export default {
 .card-grid:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+#btn-random {
+    margin-left: 0.5em;
 }
 </style>

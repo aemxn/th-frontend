@@ -7,6 +7,7 @@ const EXPLORE = `${ENDPOINT}/explore`;
 const GROUPBYYEAR = `${ENDPOINT}/groupByYear`;
 const EXPORT = `${ENDPOINT}/export`;
 const EXPLORE_BY_MONTH = `${ENDPOINT}/explore/month`;
+const RANDOM = `${ENDPOINT}/random`;
 
 class EntryDataService {
   getLatest() {
@@ -27,6 +28,10 @@ class EntryDataService {
 
   groupByYear() {
     return Axios.get(GROUPBYYEAR);
+  }
+
+  random() {
+    return Axios.get(RANDOM);
   }
 
   create(entry) {
